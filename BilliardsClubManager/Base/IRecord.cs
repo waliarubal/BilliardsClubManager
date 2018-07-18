@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
 
-namespace BilliardsClubManager.Models
+namespace BilliardsClubManager.Base
 {
     interface IRecord
     {
         void Clear();
 
-        void Save();
+        string Save();
 
-        void Delete();
+        string Delete();
 
         IRecord Get(long id);
 
