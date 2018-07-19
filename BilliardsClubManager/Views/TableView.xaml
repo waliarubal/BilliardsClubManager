@@ -4,8 +4,12 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="clr-namespace:BilliardsClubManager.ViewModels"
     d:DesignWidth="800"
     mc:Ignorable="d">
+    <UserControl.DataContext>
+        <vm:TableViewModel />
+    </UserControl.DataContext>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
@@ -18,12 +22,19 @@
         </Grid.RowDefinitions>
 
         <Label Content="Name:" />
-        <TextBox Grid.Column="1" />
+        <TextBox Grid.Column="1" Text="{Binding Path=Record.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
         <Label Grid.Row="1" Content="Price (per minute):" />
-        <TextBox Grid.Row="1" Grid.Column="1" />
+        <TextBox
+            Grid.Row="1"
+            Grid.Column="1"
+            Text="{Binding Path=Record.PricePerMinute, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
         <Label Grid.Row="2" Content="Switch:" />
-        <ComboBox Grid.Row="2" Grid.Column="1" />
+        <ComboBox
+            Grid.Row="2"
+            Grid.Column="1"
+            ItemsSource="{Binding Path=Switches, Mode=OneTime}"
+            SelectedItem="{Binding Path=Record.Switch, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
     </Grid>
 </UserControl>

@@ -1,6 +1,7 @@
 ﻿using Devart.Data.SQLite;
 using NullVoidCreations.WpfHelpers;
 using System.Data;
+using System.IO;
 using System.Windows;
 
 namespace BilliardsClubManager
@@ -35,8 +36,8 @@ namespace BilliardsClubManager
         {
             var connectionStringBuilder = new SQLiteConnectionStringBuilder
             {
-                DataSource = "",
-                FailIfMissing = false,
+                DataSource = Path.Combine(StartupDirectory, "Assets", "Database.sqlite3"),
+                FailIfMissing = true,
                 ConnectionTimeout = 20,
                 Locking = LockingMode.Exclusive,
                 AutoVacuum = AutoVacuumMode.Full,

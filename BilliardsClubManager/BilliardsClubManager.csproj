@@ -49,7 +49,7 @@
       <HintPath>packages\System.Windows.Interactivity.WPF.2.0.20525\lib\net40\Microsoft.Expression.Interactions.dll</HintPath>
     </Reference>
     <Reference Include="NullVoidCreations.WpfHelpers, Version=18.7.6.12, Culture=neutral, PublicKeyToken=203b8d613f6ac171, processorArchitecture=MSIL">
-      <HintPath>packages\NullVoidCreations.WpfHelpers.18.7.19.16\lib\net40\NullVoidCreations.WpfHelpers.dll</HintPath>
+      <HintPath>packages\NullVoidCreations.WpfHelpers.18.7.19.17\lib\net40\NullVoidCreations.WpfHelpers.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -123,7 +123,7 @@
     </EmbeddedResource>
     <None Include="app.config" />
     <None Include="Assets\Database.sqlite3">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
