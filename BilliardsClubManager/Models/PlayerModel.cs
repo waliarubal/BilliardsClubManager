@@ -60,6 +60,11 @@ namespace BilliardsClubManager.Models
             throw new System.NotImplementedException();
         }
 
+        public IRecord New()
+        {
+            throw new System.NotImplementedException();
+        }
+
         public string Save()
         {
             throw new System.NotImplementedException();

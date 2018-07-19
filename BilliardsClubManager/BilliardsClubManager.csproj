@@ -39,17 +39,17 @@
     <Reference Include="Dapper.Contrib, Version=1.50.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\Dapper.Contrib.1.50.0\lib\net40\Dapper.Contrib.dll</HintPath>
     </Reference>
-    <Reference Include="Devart.Data, Version=5.0.1964.0, Culture=neutral, PublicKeyToken=09af7300eec23701, processorArchitecture=MSIL">
-      <HintPath>packages\dotConnect.Express.for.SQLite.5.11.1172\lib\Devart.Data.dll</HintPath>
+    <Reference Include="Devart.Data, Version=5.0.1982.0, Culture=neutral, PublicKeyToken=09af7300eec23701, processorArchitecture=MSIL">
+      <HintPath>packages\dotConnect.Express.for.SQLite.5.11.1190\lib\Devart.Data.dll</HintPath>
     </Reference>
-    <Reference Include="Devart.Data.SQLite, Version=5.11.1172.0, Culture=neutral, PublicKeyToken=09af7300eec23701, processorArchitecture=MSIL">
-      <HintPath>packages\dotConnect.Express.for.SQLite.5.11.1172\lib\Devart.Data.SQLite.dll</HintPath>
+    <Reference Include="Devart.Data.SQLite, Version=5.11.1190.0, Culture=neutral, PublicKeyToken=09af7300eec23701, processorArchitecture=MSIL">
+      <HintPath>packages\dotConnect.Express.for.SQLite.5.11.1190\lib\Devart.Data.SQLite.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Expression.Interactions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>packages\System.Windows.Interactivity.WPF.2.0.20525\lib\net40\Microsoft.Expression.Interactions.dll</HintPath>
     </Reference>
     <Reference Include="NullVoidCreations.WpfHelpers, Version=18.7.6.12, Culture=neutral, PublicKeyToken=203b8d613f6ac171, processorArchitecture=MSIL">
-      <HintPath>packages\NullVoidCreations.WpfHelpers.18.7.6.12\lib\net40\NullVoidCreations.WpfHelpers.dll</HintPath>
+      <HintPath>packages\NullVoidCreations.WpfHelpers.18.7.19.16\lib\net40\NullVoidCreations.WpfHelpers.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -85,6 +85,8 @@
     <Compile Include="Models\TableModel.cs" />
     <Compile Include="Shared.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\RecordManagerViewModel.cs" />
+    <Compile Include="ViewModels\TableViewModel.cs" />
     <Compile Include="Views\GameView.xaml.cs">
       <DependentUpon>GameView.xaml</DependentUpon>
     </Compile>
@@ -93,6 +95,9 @@
     </Compile>
     <Compile Include="Views\PlayerView.xaml.cs">
       <DependentUpon>PlayerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RecordManagerView.xaml.cs">
+      <DependentUpon>RecordManagerView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TableView.xaml.cs">
       <DependentUpon>TableView.xaml</DependentUpon>
@@ -127,7 +132,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Assets\Images\" />
+    <Resource Include="Assets\Images\basketball-player-32.png" />
+    <Resource Include="Assets\Images\combo-chart-32.png" />
+    <Resource Include="Assets\Images\dashboard-32.png" />
+    <Resource Include="Assets\Images\pool-table-32.png" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="Assets\Styles\SharedStyle.xaml">
@@ -146,10 +154,20 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\RecordManagerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\TableView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Images\delete-32.png" />
+    <Resource Include="Assets\Images\plus-32.png" />
+    <Resource Include="Assets\Images\save-32.png" />
+    <Resource Include="Assets\Images\search-32.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -81,6 +81,11 @@ namespace BilliardsClubManager.Models
             throw new NotImplementedException();
         }
 
+        public IRecord New()
+        {
+            throw new NotImplementedException();
+        }
+
         public string Save()
         {
             throw new NotImplementedException();

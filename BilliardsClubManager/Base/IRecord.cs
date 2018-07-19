@@ -6,6 +6,8 @@ namespace BilliardsClubManager.Base
     {
         void Clear();
 
+        IRecord New();
+
         string Save();
 
         string Delete();

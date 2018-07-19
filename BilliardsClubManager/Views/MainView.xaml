@@ -13,5 +13,40 @@
     <Window.DataContext>
         <vm:MainViewModel />
     </Window.DataContext>
-    <Grid />
+    <Grid Margin="4">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <StackPanel>
+            <Button>
+                <StackPanel>
+                    <Image Source="/Assets/Images/dashboard-32.png" />
+                    <TextBlock Text="Dashboard" />
+                </StackPanel>
+            </Button>
+            <Button>
+                <StackPanel>
+                    <Image Source="/Assets/Images/basketball-player-32.png" />
+                    <TextBlock Text="Players" />
+                </StackPanel>
+            </Button>
+            <Button Command="{Binding Path=CreateChildViewCommand, Mode=OneTime}">
+                <Button.CommandParameter>
+                    <vm:TableViewModel />
+                </Button.CommandParameter>
+                <StackPanel>
+                    <Image Source="/Assets/Images/pool-table-32.png" />
+                    <TextBlock Text="Tables" />
+                </StackPanel>
+            </Button>
+            <Button>
+                <StackPanel>
+                    <Image Source="/Assets/Images/combo-chart-32.png" />
+                    <TextBlock Text="Reports" />
+                </StackPanel>
+            </Button>
+        </StackPanel>
+        <ContentPresenter Grid.Row="1" Content="{Binding Path=ChildView, Mode=OneWay}" />
+    </Grid>
 </Window>

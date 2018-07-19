@@ -1,6 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
+using System.Text;
 using BilliardsClubManager.Base;
+using Dapper;
 using Dapper.Contrib.Extensions;
+using NullVoidCreations.WpfHelpers;
 using NullVoidCreations.WpfHelpers.Base;
 
 namespace BilliardsClubManager.Models
@@ -11,7 +15,7 @@ namespace BilliardsClubManager.Models
         long _id;
         string _name;
         decimal _pricePerMinute;
-        byte _switch;
+        int _switch;
 
         #region properties
 
@@ -22,19 +26,22 @@ namespace BilliardsClubManager.Models
             set => Set(nameof(Id), ref _id, value);
         }
 
+        [DisplayName("Name")]
         public string Name
         {
             get => _name;
             set => Set(nameof(Name), ref _name, value);
         }
 
+        [DisplayName("Price (per minute)")]
         public decimal PricePerMinute
         {
             get => _pricePerMinute;
             set => Set(nameof(PricePerMinute), ref _pricePerMinute, value);
         }
 
-        public byte Switch
+        [DisplayName("Switch")]
+        public int Switch
         {
             get => _switch;
             set => Set(nameof(Switch), ref _switch, value);
@@ -44,7 +51,9 @@ namespace BilliardsClubManager.Models
 
         public void Clear()
         {
-            throw new System.NotImplementedException();
+            Name = null;
+            PricePerMinute = 0;
+            Switch = -1;
         }
 
         public string Delete()
@@ -54,12 +63,30 @@ namespace BilliardsClubManager.Models
 
         public IRecord Get(long id)
         {
-            throw new System.NotImplementedException();
+            using (var connection = Shared.Instance.GetConnection())
+            {
+                return connection.Get<TableModel>(id);
+            }
         }
 
         public IEnumerable<IRecord> Get(string searchKeywoard)
         {
-            throw new System.NotImplementedException();
+            var sqlbuilder = new StringBuilder();
+            sqlbuilder.AppendLineFormatted("SELECT");
+            sqlbuilder.AppendLineFormatted("  *");
+            sqlbuilder.AppendLineFormatted("FROM [Tables]");
+            sqlbuilder.AppendLineFormatted("WHERE");
+            sqlbuilder.AppendLineFormatted("  [Name] LIKE '%{0}%'", searchKeywoard);
+
+            using (var connection = Shared.Instance.GetConnection())
+            {
+                return connection.Query<TableModel>(sqlbuilder.ToString());
+            }
+        }
+
+        public IRecord New()
+        {
+            return new TableModel();
         }
 
         public string Save()
