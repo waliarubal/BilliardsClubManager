@@ -38,7 +38,7 @@ namespace BilliardsClubManager.Models
             set => Set(nameof(Name), ref _name, value);
         }
 
-        [DisplayName("Price (per minute)")]
+        [DisplayName("Charge (₹ per minute)")]
         public decimal PricePerMinute
         {
             get => _pricePerMinute;

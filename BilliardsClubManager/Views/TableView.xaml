@@ -27,7 +27,7 @@
             IsEnabled="{Binding Path=IsSaveAllowed, Mode=OneWay}"
             Text="{Binding Path=Record.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
-        <Label Grid.Row="1" Content="Price (per minute):" />
+        <Label Grid.Row="1" Content="Charge (₹ per minute):" />
         <TextBox
             Grid.Row="1"
             Grid.Column="1"
