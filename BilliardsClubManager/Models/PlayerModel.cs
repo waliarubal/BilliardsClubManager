@@ -104,5 +104,10 @@ namespace BilliardsClubManager.Models
                 return isSaved ? null : "Failed to save record.";
             }
         }
+
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }

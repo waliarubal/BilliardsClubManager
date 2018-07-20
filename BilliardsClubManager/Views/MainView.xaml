@@ -13,48 +13,76 @@
     <Window.DataContext>
         <vm:MainViewModel />
     </Window.DataContext>
-    <Grid Margin="4">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <ToolBar ToolBarTray.IsLocked="True">
-            <ToolBar.Resources>
-                <Style TargetType="StackPanel">
-                    <Setter Property="Orientation" Value="Horizontal" />
-                </Style>
-            </ToolBar.Resources>
-            <Button>
-                <StackPanel>
-                    <Image Source="/Assets/Images/dashboard-32.png" />
-                    <TextBlock Text="Dashboard" />
-                </StackPanel>
-            </Button>
-            <Button Command="{Binding Path=CreateChildViewCommand, Mode=OneTime}">
-                <Button.CommandParameter>
-                    <vm:PlayerViewModel />
-                </Button.CommandParameter>
-                <StackPanel>
-                    <Image Source="/Assets/Images/basketball-player-32.png" />
-                    <TextBlock Text="Players" />
-                </StackPanel>
-            </Button>
-            <Button Command="{Binding Path=CreateChildViewCommand, Mode=OneTime}">
-                <Button.CommandParameter>
-                    <vm:TableViewModel />
-                </Button.CommandParameter>
-                <StackPanel>
-                    <Image Source="/Assets/Images/pool-table-32.png" />
-                    <TextBlock Text="Tables" />
-                </StackPanel>
-            </Button>
-            <Button>
-                <StackPanel>
-                    <Image Source="/Assets/Images/combo-chart-32.png" />
-                    <TextBlock Text="Reports" />
-                </StackPanel>
-            </Button>
-        </ToolBar>
-        <ContentPresenter Grid.Row="1" Content="{Binding Path=ChildView, Mode=OneWay}" />
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <ToolBarTray Orientation="Vertical">
+            <ToolBar ToolBarTray.IsLocked="True">
+                <ToolBar.Resources>
+                    <Style TargetType="StackPanel">
+                        <Setter Property="Orientation" Value="Horizontal" />
+                    </Style>
+                    <Style BasedOn="{StaticResource {x:Type Image}}" TargetType="Image">
+                        <Setter Property="Width" Value="32" />
+                        <Setter Property="Height" Value="32" />
+                    </Style>
+                    <Style BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="TextBlock">
+                        <Setter Property="FontSize" Value="16" />
+                    </Style>
+                    <Style x:Key="NavigationButtonStyle" TargetType="Button">
+                        <Setter Property="HorizontalAlignment" Value="Stretch" />
+                        <Setter Property="HorizontalContentAlignment" Value="Left" />
+                    </Style>
+                </ToolBar.Resources>
+                <Button Style="{StaticResource ResourceKey=NavigationButtonStyle}">
+                    <StackPanel>
+                        <Image Source="/Assets/Images/dashboard-32.png" />
+                        <TextBlock Text="Dashboard" />
+                    </StackPanel>
+                </Button>
+                <Separator />
+                <Button Command="{Binding Path=CreateChildViewCommand, Mode=OneTime}" Style="{StaticResource ResourceKey=NavigationButtonStyle}">
+                    <Button.CommandParameter>
+                        <vm:GameViewModel />
+                    </Button.CommandParameter>
+                    <StackPanel>
+                        <Image Source="/Assets/Images/trophy-32.png" />
+                        <TextBlock Text="Games" />
+                    </StackPanel>
+                </Button>
+                <Button Command="{Binding Path=CreateChildViewCommand, Mode=OneTime}" Style="{StaticResource ResourceKey=NavigationButtonStyle}">
+                    <Button.CommandParameter>
+                        <vm:PlayerViewModel />
+                    </Button.CommandParameter>
+                    <StackPanel>
+                        <Image Source="/Assets/Images/teams-32.png" />
+                        <TextBlock Text="Players" />
+                    </StackPanel>
+                </Button>
+                <Button Command="{Binding Path=CreateChildViewCommand, Mode=OneTime}" Style="{StaticResource ResourceKey=NavigationButtonStyle}">
+                    <Button.CommandParameter>
+                        <vm:TableViewModel />
+                    </Button.CommandParameter>
+                    <StackPanel>
+                        <Image Source="/Assets/Images/pool-table-32.png" />
+                        <TextBlock Text="Tables" />
+                    </StackPanel>
+                </Button>
+                <Separator />
+                <Button Style="{StaticResource ResourceKey=NavigationButtonStyle}">
+                    <StackPanel>
+                        <Image Source="/Assets/Images/combo-chart-32.png" />
+                        <TextBlock Text="Reports" />
+                    </StackPanel>
+                </Button>
+            </ToolBar>
+        </ToolBarTray>
+
+        <ContentPresenter
+            Grid.Column="1"
+            Margin="4"
+            Content="{Binding Path=ChildView, Mode=OneWay}" />
     </Grid>
 </Window>
