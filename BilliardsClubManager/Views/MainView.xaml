@@ -18,14 +18,22 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <StackPanel>
+        <ToolBar ToolBarTray.IsLocked="True">
+            <ToolBar.Resources>
+                <Style TargetType="StackPanel">
+                    <Setter Property="Orientation" Value="Horizontal" />
+                </Style>
+            </ToolBar.Resources>
             <Button>
                 <StackPanel>
                     <Image Source="/Assets/Images/dashboard-32.png" />
                     <TextBlock Text="Dashboard" />
                 </StackPanel>
             </Button>
-            <Button>
+            <Button Command="{Binding Path=CreateChildViewCommand, Mode=OneTime}">
+                <Button.CommandParameter>
+                    <vm:PlayerViewModel />
+                </Button.CommandParameter>
                 <StackPanel>
                     <Image Source="/Assets/Images/basketball-player-32.png" />
                     <TextBlock Text="Players" />
@@ -46,7 +54,7 @@
                     <TextBlock Text="Reports" />
                 </StackPanel>
             </Button>
-        </StackPanel>
+        </ToolBar>
         <ContentPresenter Grid.Row="1" Content="{Binding Path=ChildView, Mode=OneWay}" />
     </Grid>
 </Window>

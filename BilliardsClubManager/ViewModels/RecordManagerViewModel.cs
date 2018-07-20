@@ -10,7 +10,7 @@ namespace BilliardsClubManager.ViewModels
 {
     class RecordManagerViewModel: ViewModelBase
     {
-        ICommand _createChildView, _save, _delete, _new, _refresh;
+        ICommand _createChildView, _save, _delete, _new, _refresh, _select;
 
         Control _childView;
         string _errorMessage, _searchKeywoard;
@@ -89,7 +89,7 @@ namespace BilliardsClubManager.ViewModels
             get
             {
                 if (_save == null)
-                    _save = new RelayCommand<object, string>(Save, CommandCallback);
+                    _save = new RelayCommand(Save);
 
                 return _save;
             }
@@ -100,7 +100,7 @@ namespace BilliardsClubManager.ViewModels
             get
             {
                 if (_delete == null)
-                    _delete = new RelayCommand<object, string>(Delete, CommandCallback);
+                    _delete = new RelayCommand(Delete);
 
                 return _delete;
             }
@@ -122,42 +122,60 @@ namespace BilliardsClubManager.ViewModels
             get
             {
                 if (_refresh == null)
-                    _refresh = new RelayCommand<string, IEnumerable<IRecord>>(Refresh, RefreshCallbnack);
+                    _refresh = new RelayCommand<string>(Refresh);
 
                 return _refresh;
             }
         }
 
-        #endregion
-
-        string Save(object argument)
+        public ICommand SelectCommand
         {
-            return Editor.Record.Save();
+            get
+            {
+                if (_select == null)
+                    _select = new RelayCommand<IRecord>(Select);
+
+                return _select;
+            }
         }
 
-        string Delete(object argument)
+        #endregion
+
+        void Select(IRecord record)
         {
-            return Editor.Record.Delete();
+            if (record == null)
+                return;
+
+            Editor.Record = record;
+        }
+
+        void Save()
+        {
+            ErrorMessage = Editor.Record.Save();
+            if (ErrorMessage == null)
+            {
+                New();
+                Refresh(SearchKeywoard);
+            }
+        }
+
+        void Delete()
+        {
+            ErrorMessage = Editor.Record.Delete();
+            if (ErrorMessage == null)
+                New();
         }
 
         void New()
         {
+            ErrorMessage = null;
             Editor.Record = Editor.Record.New();
         }
 
-        void CommandCallback(string errorMessage)
+        void Refresh(string searchKeywoard)
         {
-            ErrorMessage = errorMessage;
-        }
-
-        IEnumerable<IRecord> Refresh(string searchKeywoard)
-        {
-            return Editor.Record.Get(searchKeywoard);
-        }
-
-        void RefreshCallbnack(IEnumerable<IRecord> records)
-        {
-            Records = records;
+            New();
+            Records = Editor.Record.Get(searchKeywoard);
         }
 
         void CreateChildView(IRecordEditor editor)
@@ -165,7 +183,8 @@ namespace BilliardsClubManager.ViewModels
             if (editor == null)
                 throw new ArgumentNullException("editor");
 
-             ChildView = editor.GetView();
+            ChildView = editor.GetView();
+            Refresh(SearchKeywoard);
         }
     }
 }

@@ -85,6 +85,7 @@
     <Compile Include="Models\TableModel.cs" />
     <Compile Include="Shared.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\PlayerViewModel.cs" />
     <Compile Include="ViewModels\RecordManagerViewModel.cs" />
     <Compile Include="ViewModels\TableViewModel.cs" />
     <Compile Include="Views\GameView.xaml.cs">

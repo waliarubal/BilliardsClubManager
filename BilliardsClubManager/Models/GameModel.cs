@@ -14,6 +14,11 @@ namespace BilliardsClubManager.Models
         PlayerModel _player1, _player2, _winner;
         DateTime _start, _end;
 
+        public GameModel()
+        {
+            Id = -1;
+        }
+
         #region properties
 
         [Key]
@@ -60,11 +65,6 @@ namespace BilliardsClubManager.Models
         }
 
         #endregion
-
-        public void Clear()
-        {
-            throw new NotImplementedException();
-        }
 
         public string Delete()
         {

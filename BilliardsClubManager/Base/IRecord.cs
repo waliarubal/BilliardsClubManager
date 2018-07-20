@@ -4,8 +4,6 @@ namespace BilliardsClubManager.Base
 {
     interface IRecord
     {
-        void Clear();
-
         IRecord New();
 
         string Save();

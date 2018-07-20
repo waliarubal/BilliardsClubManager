@@ -34,6 +34,11 @@
             TextWrapping="WrapWithOverflow"
             Visibility="{Binding Path=IsHavingError, Mode=OneWay, Converter={StaticResource ResourceKey=BooleanToVisibilityConverter}}" />
         <Grid Grid.Row="2">
+            <Grid.Resources>
+                <Style TargetType="StackPanel">
+                    <Setter Property="Orientation" Value="Horizontal" />
+                </Style>
+            </Grid.Resources>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
@@ -45,7 +50,7 @@
             </Grid.ColumnDefinitions>
             <Label Content="Search:" />
             <TextBox Grid.Column="1" Text="{Binding Path=SearchKeywoard, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-            <Button Grid.Column="2" Command="{Binding Path=SaveCommand, Mode=OneTime}">
+            <Button Grid.Column="2" Command="{Binding Path=RefreshCommand, Mode=OneTime}">
                 <StackPanel>
                     <Image Source="/Assets/Images/search-32.png" />
                     <TextBlock Text="Search" />
@@ -75,6 +80,11 @@
             <i:Interaction.Behaviors>
                 <b:ColumnHeaderBehavior />
             </i:Interaction.Behaviors>
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="SelectionChanged">
+                    <i:InvokeCommandAction Command="{Binding Path=SelectCommand, Mode=OneTime}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}, Path=SelectedItem, Mode=OneWay}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
         </DataGrid>
     </Grid>
 </UserControl>

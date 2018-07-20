@@ -1,6 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
+using System.Text;
 using BilliardsClubManager.Base;
+using Dapper;
 using Dapper.Contrib.Extensions;
+using NullVoidCreations.WpfHelpers;
 using NullVoidCreations.WpfHelpers.Base;
 
 namespace BilliardsClubManager.Models
@@ -11,6 +15,11 @@ namespace BilliardsClubManager.Models
         long _id;
         string _name, _phone, _email;
 
+        public PlayerModel()
+        {
+            Id = -1;
+        }
+
         #region properties
 
         [Key]
@@ -20,18 +29,21 @@ namespace BilliardsClubManager.Models
             set => Set(nameof(Id), ref _id, value);
         }
 
+        [DisplayName("Full Name")]
         public string Name
         {
             get => _name;
             set => Set(nameof(Name), ref _name, value);
         }
 
+        [DisplayName("Phone Number")]
         public string Phone
         {
             get => _phone;
             set => Set(nameof(Phone), ref _phone, value);
         }
 
+        [DisplayName("E-mail Address")]
         public string Email
         {
             get => _email;
@@ -40,34 +52,57 @@ namespace BilliardsClubManager.Models
 
         #endregion
 
-        public void Clear()
-        {
-            throw new System.NotImplementedException();
-        }
-
         public string Delete()
         {
-            throw new System.NotImplementedException();
+            using (var connection = Shared.Instance.GetConnection())
+            {
+                return connection.Delete(this) ? null : "Failed to delete record.";
+            }
         }
 
         public IRecord Get(long id)
         {
-            throw new System.NotImplementedException();
+            using (var connection = Shared.Instance.GetConnection())
+            {
+                return connection.Get<TableModel>(id);
+            }
         }
 
         public IEnumerable<IRecord> Get(string searchKeywoard)
         {
-            throw new System.NotImplementedException();
+            var sqlbuilder = new StringBuilder();
+            sqlbuilder.AppendLineFormatted("SELECT");
+            sqlbuilder.AppendLineFormatted("  *");
+            sqlbuilder.AppendLineFormatted("FROM [Players]");
+            sqlbuilder.AppendLineFormatted("WHERE");
+            sqlbuilder.AppendLineFormatted("  [Name] LIKE '%{0}%'", searchKeywoard);
+
+            using (var connection = Shared.Instance.GetConnection())
+            {
+                return connection.Query<PlayerModel>(sqlbuilder.ToString());
+            }
         }
 
         public IRecord New()
         {
-            throw new System.NotImplementedException();
+            return new PlayerModel();
         }
 
         public string Save()
         {
-            throw new System.NotImplementedException();
+            if (string.IsNullOrEmpty(Name))
+                return "Player name not specified.";
+
+            using (var connection = Shared.Instance.GetConnection())
+            {
+                bool isSaved;
+                if (Id < 0)
+                    isSaved = connection.Insert(this) > -1;
+                else
+                    isSaved = connection.Update(this);
+
+                return isSaved ? null : "Failed to save record.";
+            }
         }
     }
 }
