@@ -4,8 +4,12 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="clr-namespace:BilliardsClubManager.ViewModels"
     d:DesignWidth="800"
     mc:Ignorable="d">
+    <UserControl.DataContext>
+        <vm:GameViewModel />
+    </UserControl.DataContext>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
@@ -21,21 +25,44 @@
         </Grid.RowDefinitions>
 
         <Label Content="Table:" />
-        <TextBox Grid.Column="1" />
+        <TextBox
+            Grid.Column="1"
+            IsEnabled="{Binding Path=IsSaveAllowed, Mode=OneWay}"
+            Text="{Binding Path=Record.Table, Mode=TwoWay}" />
 
         <Label Grid.Row="1" Content="First Player (or Team):" />
-        <TextBox Grid.Row="1" Grid.Column="1" />
+        <TextBox
+            Grid.Row="1"
+            Grid.Column="1"
+            IsEnabled="{Binding Path=IsSaveAllowed, Mode=OneWay}"
+            Text="{Binding Path=Record.Player1, Mode=TwoWay}" />
 
         <Label Grid.Row="2" Content="Second Player (or Team):" />
-        <TextBox Grid.Row="2" Grid.Column="1" />
+        <TextBox
+            Grid.Row="2"
+            Grid.Column="1"
+            IsEnabled="{Binding Path=IsSaveAllowed, Mode=OneWay}"
+            Text="{Binding Path=Record.Player2, Mode=TwoWay}" />
 
         <Label Grid.Row="3" Content="Start (Date &amp; Time):" />
-        <TextBox Grid.Row="3" Grid.Column="1" />
+        <TextBox
+            Grid.Row="3"
+            Grid.Column="1"
+            IsEnabled="{Binding Path=IsSaveAllowed, Mode=OneWay}"
+            Text="{Binding Path=Record.Start, Mode=TwoWay}" />
 
         <Label Grid.Row="4" Content="End (Date &amp; Time):" />
-        <TextBox Grid.Row="4" Grid.Column="1" />
+        <TextBox
+            Grid.Row="4"
+            Grid.Column="1"
+            IsEnabled="{Binding Path=IsSaveAllowed, Mode=OneWay}"
+            Text="{Binding Path=Record.End, Mode=TwoWay}" />
 
         <Label Grid.Row="5" Content="Winner Player (or Team):" />
-        <TextBox Grid.Row="5" Grid.Column="1" />
+        <TextBox
+            Grid.Row="5"
+            Grid.Column="1"
+            IsEnabled="{Binding Path=IsSaveAllowed, Mode=OneWay}"
+            Text="{Binding Path=Record.Winner, Mode=TwoWay}" />
     </Grid>
 </UserControl>

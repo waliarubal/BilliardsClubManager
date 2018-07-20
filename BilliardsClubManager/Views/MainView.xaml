@@ -36,14 +36,17 @@
                         <Setter Property="HorizontalContentAlignment" Value="Left" />
                     </Style>
                 </ToolBar.Resources>
-                <Button Style="{StaticResource ResourceKey=NavigationButtonStyle}">
+                <Button Command="{Binding Path=CreateChildViewCommand, Mode=OneTime}" Style="{StaticResource ResourceKey=NavigationButtonStyle}">
+                    <Button.CommandParameter>
+                        <vm:DashboardViewModel />
+                    </Button.CommandParameter>
                     <StackPanel>
                         <Image Source="/Assets/Images/dashboard-32.png" />
                         <TextBlock Text="Dashboard" />
                     </StackPanel>
                 </Button>
                 <Separator />
-                <Button Command="{Binding Path=CreateChildViewCommand, Mode=OneTime}" Style="{StaticResource ResourceKey=NavigationButtonStyle}">
+                <Button Command="{Binding Path=CreateEditorViewCommand, Mode=OneTime}" Style="{StaticResource ResourceKey=NavigationButtonStyle}">
                     <Button.CommandParameter>
                         <vm:GameViewModel />
                     </Button.CommandParameter>
@@ -52,7 +55,7 @@
                         <TextBlock Text="Games" />
                     </StackPanel>
                 </Button>
-                <Button Command="{Binding Path=CreateChildViewCommand, Mode=OneTime}" Style="{StaticResource ResourceKey=NavigationButtonStyle}">
+                <Button Command="{Binding Path=CreateEditorViewCommand, Mode=OneTime}" Style="{StaticResource ResourceKey=NavigationButtonStyle}">
                     <Button.CommandParameter>
                         <vm:PlayerViewModel />
                     </Button.CommandParameter>
@@ -61,7 +64,7 @@
                         <TextBlock Text="Players" />
                     </StackPanel>
                 </Button>
-                <Button Command="{Binding Path=CreateChildViewCommand, Mode=OneTime}" Style="{StaticResource ResourceKey=NavigationButtonStyle}">
+                <Button Command="{Binding Path=CreateEditorViewCommand, Mode=OneTime}" Style="{StaticResource ResourceKey=NavigationButtonStyle}">
                     <Button.CommandParameter>
                         <vm:TableViewModel />
                     </Button.CommandParameter>

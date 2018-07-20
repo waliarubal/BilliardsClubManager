@@ -21,6 +21,12 @@ namespace BilliardsClubManager.ViewModels
             set => Set(nameof(Record), ref _record, value as GameModel);
         }
 
+        public bool IsNewAllowed => false;
+
+        public bool IsSaveAllowed => false;
+
+        public bool IsDeleteAllowed => false;
+
         #endregion
     }
 }

@@ -7,5 +7,11 @@ namespace BilliardsClubManager.Base
         IRecord Record { get; set; }
 
         Control GetView();
+
+        bool IsNewAllowed { get; }
+
+        bool IsSaveAllowed { get; }
+
+        bool IsDeleteAllowed { get; }
     }
 }

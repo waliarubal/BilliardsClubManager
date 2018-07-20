@@ -24,6 +24,12 @@ namespace BilliardsClubManager.ViewModels
             set => Set(nameof(Record), ref _record, value as TableModel);
         }
 
+        public bool IsNewAllowed => true;
+
+        public bool IsSaveAllowed => true;
+
+        public bool IsDeleteAllowed => true;
+
         public IEnumerable<int> Switches
         {
             get

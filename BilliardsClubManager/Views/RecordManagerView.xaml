@@ -57,19 +57,28 @@
                 </StackPanel>
             </Button>
             <Separator Grid.Column="3" Style="{StaticResource ResourceKey=VerticalSeparatorStyle}" />
-            <Button Grid.Column="4" Command="{Binding Path=SaveCommand, Mode=OneTime}">
+            <Button
+                Grid.Column="4"
+                Command="{Binding Path=SaveCommand, Mode=OneTime}"
+                Visibility="{Binding Path=Editor.IsSaveAllowed, Mode=OneWay, Converter={StaticResource ResourceKey=BooleanToVisibilityConverter}}">
                 <StackPanel>
                     <Image Source="/Assets/Images/save-32.png" />
                     <TextBlock Text="Save" />
                 </StackPanel>
             </Button>
-            <Button Grid.Column="5" Command="{Binding Path=DeleteCommand, Mode=OneTime}">
+            <Button
+                Grid.Column="5"
+                Command="{Binding Path=DeleteCommand, Mode=OneTime}"
+                Visibility="{Binding Path=Editor.IsDeleteAllowed, Mode=OneWay, Converter={StaticResource ResourceKey=BooleanToVisibilityConverter}}">
                 <StackPanel>
                     <Image Source="/Assets/Images/delete-32.png" />
                     <TextBlock Text="Delete" />
                 </StackPanel>
             </Button>
-            <Button Grid.Column="6" Command="{Binding Path=NewCommand, Mode=OneTime}">
+            <Button
+                Grid.Column="6"
+                Command="{Binding Path=NewCommand, Mode=OneTime}"
+                Visibility="{Binding Path=Editor.IsNewAllowed, Mode=OneWay, Converter={StaticResource ResourceKey=BooleanToVisibilityConverter}}">
                 <StackPanel>
                     <Image Source="/Assets/Images/plus-32.png" />
                     <TextBlock Text="New" />
