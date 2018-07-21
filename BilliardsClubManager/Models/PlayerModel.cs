@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
 using BilliardsClubManager.Base;
@@ -10,7 +11,7 @@ using NullVoidCreations.WpfHelpers.Base;
 namespace BilliardsClubManager.Models
 {
     [Table("Players")]
-    class PlayerModel: NotificationBase, IRecord, IEqualityComparer<PlayerModel>
+    class PlayerModel: NotificationBase, IRecord, IEquatable<PlayerModel>
     {
         long _id;
         string _name, _phone, _email;
@@ -59,8 +60,6 @@ namespace BilliardsClubManager.Models
                 return connection.Delete(this) ? null : "Failed to delete record.";
             }
         }
-
-        
 
         public IRecord Get(long id)
         {
@@ -117,9 +116,9 @@ namespace BilliardsClubManager.Models
             return Name;
         }
 
-        public bool Equals(PlayerModel first, PlayerModel second)
+        public bool Equals(PlayerModel other)
         {
-            return first != null && second != null && first.Id == second.Id;
+            return other != null && Id.Equals(other.Id);
         }
     }
 }

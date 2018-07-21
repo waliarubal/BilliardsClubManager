@@ -78,21 +78,27 @@ namespace BilliardsClubManager.Models
         public DateTime? Start
         {
             get => _start;
-            set
-            {
-                if (Set(nameof(Start), ref _start, value))
-                    UpdateState();
-            }
+            set => Set(nameof(Start), ref _start, value);
         }
 
         [DisplayName("End (Date & Time)")]
         public DateTime? End
         {
             get => _end;
+            set => Set(nameof(End), ref _end, value);
+        }
+
+        [DisplayName("State")]
+        public GameState State
+        {
+            get => _state;
             set
             {
-                if (Set(nameof(End), ref _end, value))
-                    UpdateState();
+                Set(nameof(State), ref _state, value);
+
+                RaisePropertyChanged(nameof(IsNotStarted));
+                RaisePropertyChanged(nameof(IsInProgress));
+                RaisePropertyChanged(nameof(IsFinished));
             }
         }
 
@@ -108,13 +114,6 @@ namespace BilliardsClubManager.Models
         {
             get => _charge;
             private set => Set(nameof(Charge), ref _charge, value);
-        }
-
-        [Computed]
-        public GameState State
-        {
-            get => _state;
-            private set => Set(nameof(State), ref _state, value);
         }
 
         [Computed]
@@ -152,10 +151,6 @@ namespace BilliardsClubManager.Models
                 State = GameState.InProgress;
             else if (Start != null && End != null)
                 State = GameState.Finished;
-
-            RaisePropertyChanged(nameof(IsNotStarted));
-            RaisePropertyChanged(nameof(IsInProgress));
-            RaisePropertyChanged(nameof(IsFinished));
         }
 
         void Compute(DateTime? currentTime)
@@ -164,20 +159,59 @@ namespace BilliardsClubManager.Models
             Charge = (decimal)Time.TotalMinutes * Table.PricePerMinute;
         }
 
+        string GetSqlSelect(string searchKeywoard, params GameState[] gameStates)
+        {
+            var sqlBuilder = new StringBuilder();
+            sqlBuilder.AppendLineFormatted("SELECT");
+            sqlBuilder.AppendLineFormatted(" *");
+            sqlBuilder.AppendLineFormatted("FROM [Games] AS G");
+            sqlBuilder.AppendLineFormatted("INNER JOIN [Tables] AS T ON G.TableId = T.Id");
+            sqlBuilder.AppendLineFormatted("LEFT JOIN [Players] AS P1 ON G.Player1Id = P1.Id");
+            sqlBuilder.AppendLineFormatted("LEFT JOIN [Players] AS P2 ON G.Player2Id = P2.Id");
+            sqlBuilder.AppendLineFormatted("LEFT JOIN [Players] AS W ON G.WinnerId = W.Id");
+            sqlBuilder.AppendLineFormatted("WHERE");
+            sqlBuilder.AppendLineFormatted("(");
+            sqlBuilder.AppendLineFormatted("  T.Name LIKE '%{0}%' OR", searchKeywoard);
+            sqlBuilder.AppendLineFormatted("  P1.Name LIKE '%{0}%' OR", searchKeywoard);
+            sqlBuilder.AppendLineFormatted("  P2.Name LIKE '%{0}%' OR", searchKeywoard);
+            sqlBuilder.AppendLineFormatted("  W.Name LIKE '%{0}%'", searchKeywoard);
+            sqlBuilder.AppendLineFormatted(")");
+            if (gameStates.Length > 0)
+            {
+                sqlBuilder.Append("AND (G.State IN (");
+                foreach (var state in gameStates)
+                {
+                    sqlBuilder.AppendFormat("{0}, ", (byte)state);
+                }
+                sqlBuilder.Remove(sqlBuilder.Length - 2, 2);
+                sqlBuilder.Append("))");
+            }
+
+            return sqlBuilder.ToString();
+        }
+
+        public void ResumeGame()
+        {
+            _timer = new Timer(1000);
+            _timer.Elapsed += (object sender, ElapsedEventArgs e) => Compute(DateTime.Now);
+            _timer.Start();
+        }
+
         public bool StartGame()
         {
             Start = DateTime.Now;
+            State = GameState.InProgress;
 
             ErrorMessage = Save();
             if (ErrorMessage != null)
             {
                 Start = null;
+                State = GameState.NotStarted;
+
                 return false;
             }
 
-            _timer = new Timer(1000);
-            _timer.Elapsed += (object sender, ElapsedEventArgs e) => Compute(DateTime.Now);
-            _timer.Start();
+            ResumeGame();
 
             return true;
         }
@@ -190,6 +224,8 @@ namespace BilliardsClubManager.Models
             _timer.Dispose();
 
             End = DateTime.Now;
+            State = GameState.Finished;
+
             Compute(End);
         }
 
@@ -210,28 +246,25 @@ namespace BilliardsClubManager.Models
             }
         }
 
-        public IEnumerable<IRecord> Get(string searchKeywoard)
+        public IEnumerable<IRecord> Get(string searchKeywoard, params GameState[] gameStates)
         {
-            var sqlBuilder = new StringBuilder();
-            sqlBuilder.AppendLineFormatted("SELECT");
-            sqlBuilder.AppendLineFormatted(" * ");
-            sqlBuilder.AppendLineFormatted("FROM [Games] AS G");
-            sqlBuilder.AppendLineFormatted("INNER JOIN [Tables] AS T ON G.TableId = T.Id");
-            sqlBuilder.AppendLineFormatted("INNER JOIN [Players] AS P1 ON G.Player1Id = P1.Id");
-            sqlBuilder.AppendLineFormatted("LEFT JOIN [Players] AS P2 ON G.Player2Id = P2.Id");
-            sqlBuilder.AppendLineFormatted("LEFT JOIN [Players] AS W ON G.WinnerId = W.Id");
-
+            var sql = GetSqlSelect(searchKeywoard, gameStates);
             using (var connection = Shared.Instance.GetConnection())
             {
-                return connection.Query<GameModel, TableModel, PlayerModel, PlayerModel, PlayerModel, GameModel>(sqlBuilder.ToString(), MapResult);
+                return connection.Query<GameModel, TableModel, PlayerModel, PlayerModel, PlayerModel, GameModel>(sql, MapResult);
             }
+        }
+
+        public IEnumerable<IRecord> Get(string searchKeywoard)
+        {
+            return Get(searchKeywoard, GameState.NotStarted, GameState.InProgress, GameState.Finished);
         }
 
         GameModel MapResult(GameModel game, TableModel table, PlayerModel player1, PlayerModel player2, PlayerModel winner)
         {
             game.Table = table;
             game.Player1 = player1;
-            game.Player2 = Player2;
+            game.Player2 = player2;
             game.Winner = winner;
             return game;
         }
@@ -260,7 +293,7 @@ namespace BilliardsClubManager.Models
                     ErrorMessage = "Game end date & time not specified.";
                 else if (Winner == null)
                     ErrorMessage = "Winner player (or team) not specified.";
-                else if (!Winner.Equals(Player1) && Winner.Equals(Player2))
+                else if (!Winner.Equals(Player1) && !Winner.Equals(Player2))
                     ErrorMessage = "Winner must be one of the first or second player (or team).";
             }
             if (ErrorMessage != null)
@@ -272,8 +305,8 @@ namespace BilliardsClubManager.Models
                 var sqlBuilder = new StringBuilder();
                 if (Id == -1)
                 {
-                    sqlBuilder.AppendLineFormatted("INSERT INTO [Games] (TableId, Player1Id, Player2Id, Start)");
-                    sqlBuilder.AppendLineFormatted("VALUES ({0}, {1}, {2}, '{3}');", Table.Id, Player1.Id, Player2.Id, Start.Value);
+                    sqlBuilder.AppendLineFormatted("INSERT INTO [Games] (TableId, Player1Id, Player2Id, Start, State)");
+                    sqlBuilder.AppendLineFormatted("VALUES ({0}, {1}, {2}, '{3}', {4});", Table.Id, Player1.Id, Player2.Id, Start.Value, (byte)State);
                     sqlBuilder.AppendLineFormatted("SELECT last_insert_rowid();");
 
                     Id = connection.ExecuteScalar<long>(sqlBuilder.ToString());
@@ -284,7 +317,8 @@ namespace BilliardsClubManager.Models
                     sqlBuilder.AppendLineFormatted("UPDATE [Games]");
                     sqlBuilder.AppendLineFormatted("SET");
                     sqlBuilder.AppendLineFormatted("  WinnerId = {0},", Winner.Id);
-                    sqlBuilder.AppendLineFormatted("  End = '{0}'", End.Value);
+                    sqlBuilder.AppendLineFormatted("  End = '{0}',", End.Value);
+                    sqlBuilder.AppendLineFormatted("  State = {0}", (byte)State);
                     sqlBuilder.AppendLineFormatted("WHERE Id = {0};", Id);
 
                     isSaved = connection.Execute(sqlBuilder.ToString()) > 0;

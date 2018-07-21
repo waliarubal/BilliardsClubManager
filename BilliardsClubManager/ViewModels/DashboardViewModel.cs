@@ -1,6 +1,7 @@
 ﻿using BilliardsClubManager.Models;
 using NullVoidCreations.WpfHelpers.Base;
 using NullVoidCreations.WpfHelpers.Commands;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
@@ -109,20 +110,39 @@ namespace BilliardsClubManager.ViewModels
             Players = new PlayerModel().Get(string.Empty) as IEnumerable<PlayerModel>;
 
             var games = new List<GameModel>();
+            var addedTableIds = new HashSet<long>();
+
+            var inProgressGames = new GameModel().Get(string.Empty, GameState.InProgress);
+            foreach(GameModel game in inProgressGames)
+            {
+                if (addedTableIds.Contains(game.Table.Id))
+                    continue;
+
+                games.Add(game);
+                game.ResumeGame();
+                addedTableIds.Add(game.Table.Id);
+            }
+
             var tables = new TableModel().Get(string.Empty);
             foreach (TableModel table in tables)
             {
+                if (addedTableIds.Contains(table.Id))
+                    continue;
+
                 var game = new GameModel { Table = table };
                 games.Add(game);
             }
+
             return games;
         }
 
         void RefreshCallback(IEnumerable<GameModel> games)
         {
             Games.Clear();
-            foreach(var game in games)
+            foreach (var game in games)
+            {
                 Games.Add(game);
+            }
         }
     }
 }
