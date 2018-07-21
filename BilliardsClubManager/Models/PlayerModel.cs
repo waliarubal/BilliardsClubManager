@@ -10,7 +10,7 @@ using NullVoidCreations.WpfHelpers.Base;
 namespace BilliardsClubManager.Models
 {
     [Table("Players")]
-    class PlayerModel: NotificationBase, IRecord
+    class PlayerModel: NotificationBase, IRecord, IEqualityComparer<PlayerModel>
     {
         long _id;
         string _name, _phone, _email;
@@ -60,6 +60,8 @@ namespace BilliardsClubManager.Models
             }
         }
 
+        
+
         public IRecord Get(long id)
         {
             using (var connection = Shared.Instance.GetConnection())
@@ -81,6 +83,11 @@ namespace BilliardsClubManager.Models
             {
                 return connection.Query<PlayerModel>(sqlbuilder.ToString());
             }
+        }
+
+        public int GetHashCode(PlayerModel obj)
+        {
+            throw new System.NotImplementedException();
         }
 
         public IRecord New()
@@ -108,6 +115,11 @@ namespace BilliardsClubManager.Models
         public override string ToString()
         {
             return Name;
+        }
+
+        public bool Equals(PlayerModel first, PlayerModel second)
+        {
+            return first != null && second != null && first.Id == second.Id;
         }
     }
 }

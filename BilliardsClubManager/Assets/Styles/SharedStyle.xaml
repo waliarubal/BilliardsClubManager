@@ -51,5 +51,29 @@
         <Setter Property="Margin" Value="2" />
         <Setter Property="MinWidth" Value="80" />
     </Style>
+    <Style x:Key="SpinningImageStyle" TargetType="Image">
+        <Setter Property="Height" Value="28" />
+        <Setter Property="Image.RenderTransform">
+            <Setter.Value>
+                <RotateTransform CenterX="14" CenterY="14" />
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="True">
+                <Trigger.EnterActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation
+                                RepeatBehavior="Forever"
+                                Storyboard.TargetProperty="RenderTransform.Angle"
+                                From="0"
+                                To="360"
+                                Duration="0:0:1" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.EnterActions>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
 
 </ResourceDictionary>
