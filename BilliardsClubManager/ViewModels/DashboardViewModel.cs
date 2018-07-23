@@ -116,28 +116,23 @@ namespace BilliardsClubManager.ViewModels
             Players = new PlayerModel().Get(string.Empty) as IEnumerable<PlayerModel>;
             GameStyles = new GameStyleModel().Get(string.Empty) as IEnumerable<GameStyleModel>;
 
-            var addedTableIds = new HashSet<long>();
+            var gameCache = new Dictionary<long, GameModel>();
+            foreach (GameModel game in new GameModel().Get(string.Empty, GameState.InProgress))
+                gameCache.Add(game.Table.Id, game);
+
             var games = new List<GameModel>();
-
-            var inProgressGames = new GameModel().Get(string.Empty, GameState.InProgress);
-            foreach (GameModel game in inProgressGames)
+            foreach (TableModel table in new TableModel().Get(string.Empty))
             {
-                if (addedTableIds.Contains(game.Table.Id))
-                    continue;
-
-                games.Add(game);
-                game.ResumeGame();
-                addedTableIds.Add(game.Table.Id);
-            }
-
-            var tables = new TableModel().Get(string.Empty);
-            foreach (TableModel table in tables)
-            {
-                if (addedTableIds.Contains(table.Id))
-                    continue;
-
-                var game = new GameModel { Table = table };
-                games.Add(game);
+                if (gameCache.ContainsKey(table.Id))
+                {
+                    gameCache[table.Id].ResumeGame();
+                    games.Add(gameCache[table.Id]);
+                }
+                else
+                {
+                    var game = new GameModel { Table = table };
+                    games.Add(game);
+                }
             }
 
             return games;

@@ -68,12 +68,12 @@
             IsEnabled="{Binding Path=IsSaveAllowed, Mode=OneWay}"
             Text="{Binding Path=Record.End, Mode=TwoWay}" />
 
-        <Label Grid.Row="6" Content="Winner:" />
+        <Label Grid.Row="6" Content="Paid By:" />
         <TextBox
             Grid.Row="6"
             Grid.Column="1"
             IsEnabled="{Binding Path=IsSaveAllowed, Mode=OneWay}"
-            Text="{Binding Path=Record.Winner.Name, Mode=TwoWay}" />
+            Text="{Binding Path=Record.PaidBy.Name, Mode=TwoWay}" />
 
         <Label Grid.Row="7" Content="Time:" />
         <TextBox

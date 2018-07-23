@@ -23,7 +23,7 @@ namespace BilliardsClubManager.Models
     {
         long _id;
         TableModel _table;
-        PlayerModel _player1, _player2, _winner;
+        PlayerModel _player1, _player2, _paidBy;
         DateTime? _start, _end;
         string _errorMessage;
         GameState _state;
@@ -75,11 +75,11 @@ namespace BilliardsClubManager.Models
             set => Set(nameof(Player2), ref _player2, value);
         }
 
-        [DisplayName("Winner")]
-        public PlayerModel Winner
+        [DisplayName("Paid By")]
+        public PlayerModel PaidBy
         {
-            get => _winner;
-            set => Set(nameof(Winner), ref _winner, value);
+            get => _paidBy;
+            set => Set(nameof(PaidBy), ref _paidBy, value);
         }
 
         [DisplayName("Start (Date & Time)")]
@@ -161,13 +161,13 @@ namespace BilliardsClubManager.Models
 
         #region private methods
 
-        GameModel MapResult(GameModel game, TableModel table, GameStyleModel style, PlayerModel player1, PlayerModel player2, PlayerModel winner)
+        GameModel MapResult(GameModel game, TableModel table, GameStyleModel style, PlayerModel player1, PlayerModel player2, PlayerModel paidBy)
         {
             game.Table = table;
             game.GameStyle = style;
             game.Player1 = player1;
             game.Player2 = player2;
-            game.Winner = winner;
+            game.PaidBy = paidBy;
 
             if (game.State == GameState.Finished)
                 game.Compute(game.End);
@@ -202,14 +202,14 @@ namespace BilliardsClubManager.Models
             sqlBuilder.AppendLineFormatted("INNER JOIN [GameStyles] AS GS ON G.GameStyleId = GS.Id");
             sqlBuilder.AppendLineFormatted("LEFT JOIN [Players] AS P1 ON G.Player1Id = P1.Id");
             sqlBuilder.AppendLineFormatted("LEFT JOIN [Players] AS P2 ON G.Player2Id = P2.Id");
-            sqlBuilder.AppendLineFormatted("LEFT JOIN [Players] AS W ON G.WinnerId = W.Id");
+            sqlBuilder.AppendLineFormatted("LEFT JOIN [Players] AS P ON G.PaidById = P.Id");
             sqlBuilder.AppendLineFormatted("WHERE");
             sqlBuilder.AppendLineFormatted("(");
             sqlBuilder.AppendLineFormatted("  T.Name LIKE '%{0}%' OR", searchKeywoard);
             sqlBuilder.AppendLineFormatted("  GS.Name LIKE '%{0}%' OR", searchKeywoard);
             sqlBuilder.AppendLineFormatted("  P1.Name LIKE '%{0}%' OR", searchKeywoard);
             sqlBuilder.AppendLineFormatted("  P2.Name LIKE '%{0}%' OR", searchKeywoard);
-            sqlBuilder.AppendLineFormatted("  W.Name LIKE '%{0}%'", searchKeywoard);
+            sqlBuilder.AppendLineFormatted("  P.Name LIKE '%{0}%'", searchKeywoard);
             sqlBuilder.AppendLineFormatted(")");
             if (gameStates.Length > 0)
             {
@@ -321,10 +321,10 @@ namespace BilliardsClubManager.Models
             {
                 if (End == null)
                     ErrorMessage = "Game end date & time not specified.";
-                else if (Winner == null)
-                    ErrorMessage = "Winner player (or team) not specified.";
-                else if (!Winner.Equals(Player1) && !Winner.Equals(Player2))
-                    ErrorMessage = "Winner must be one of the first or second player (or team).";
+                else if (PaidBy == null)
+                    ErrorMessage = "Payer not specified.";
+                else if (!PaidBy.Equals(Player1) && !PaidBy.Equals(Player2))
+                    ErrorMessage = "Payer must be one of the first or second player (or team).";
             }
             if (ErrorMessage != null)
                 return ErrorMessage;
@@ -346,7 +346,7 @@ namespace BilliardsClubManager.Models
                 {
                     sqlBuilder.AppendLineFormatted("UPDATE [Games]");
                     sqlBuilder.AppendLineFormatted("SET");
-                    sqlBuilder.AppendLineFormatted("  WinnerId = {0},", Winner.Id);
+                    sqlBuilder.AppendLineFormatted("  PaidById = {0},", PaidBy.Id);
                     sqlBuilder.AppendLineFormatted("  End = '{0}',", End.Value);
                     sqlBuilder.AppendLineFormatted("  State = {0},", (byte)State);
                     sqlBuilder.AppendLineFormatted("  ChargeTotal = {0}", ChargeTotal);

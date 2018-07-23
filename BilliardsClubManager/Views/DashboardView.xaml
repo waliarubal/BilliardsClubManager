@@ -89,13 +89,13 @@
                                         ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}, Mode=OneWay, Path=DataContext.GameStyles}"
                                         SelectedValue="{Binding Path=GameStyle, Mode=TwoWay}" />
 
-                                    <Label Grid.Row="2" Content="Winner:" />
+                                    <Label Grid.Row="2" Content="Paid By:" />
                                     <ComboBox
                                         Grid.Row="2"
                                         Grid.Column="1"
                                         IsEnabled="{Binding Path=IsFinished, Mode=OneWay}"
                                         ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}, Mode=OneWay, Path=DataContext.Players}"
-                                        SelectedValue="{Binding Path=Winner, Mode=TwoWay}" />
+                                        SelectedValue="{Binding Path=PaidBy, Mode=TwoWay}" />
                                 </Grid>
 
                                 <Grid Grid.Row="2">

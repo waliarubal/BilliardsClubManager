@@ -15,7 +15,7 @@ namespace BilliardsClubManager.Models
     class PlayerModel: NotificationBase, IRecord, IEquatable<PlayerModel>
     {
         long _id;
-        int _played, _won;
+        int _played, _paid;
         string _name, _phone, _email;
         decimal _balance;
 
@@ -62,19 +62,12 @@ namespace BilliardsClubManager.Models
             private set => Set(nameof(GamesPlayed), ref _played, value);
         }
 
-        [DisplayName("Games Won")]
+        [DisplayName("Games Paid")]
         [Computed]
-        public int GamesWon
+        public int GamesPaid
         {
-            get => _won;
-            private set => Set(nameof(GamesWon), ref _won, value);
-        }
-
-        [DisplayName("Games Lost")]
-        [Computed]
-        public int GamesLost
-        {
-            get => GamesPlayed - GamesWon;
+            get => _paid;
+            private set => Set(nameof(GamesPaid), ref _paid, value);
         }
 
         [DisplayName("Balance")]
@@ -105,8 +98,7 @@ namespace BilliardsClubManager.Models
             sqlbuilder.AppendLineFormatted("  SUM(ChargeTotal)");
             sqlbuilder.AppendLineFormatted("FROM [Games]");
             sqlbuilder.AppendLineFormatted("WHERE");
-            sqlbuilder.AppendLineFormatted("  ([Player1Id] = {0} OR [Player2Id] = {0}) AND", id);
-            sqlbuilder.AppendLineFormatted("  WinnerId != {0}", id);
+            sqlbuilder.AppendLineFormatted("  PaidById = {0}", id);
 
             var chargeTotal = connection.ExecuteScalar<decimal>(sqlbuilder.ToString());
 
@@ -126,14 +118,14 @@ namespace BilliardsClubManager.Models
             return connection.ExecuteScalar<int>(sqlbuilder.ToString());
         }
 
-        int GetGamesWon(IDbConnection connection, long id)
+        int GetGamesPaid(IDbConnection connection, long id)
         {
             var sqlbuilder = new StringBuilder();
             sqlbuilder.AppendLineFormatted("SELECT");
             sqlbuilder.AppendLineFormatted("  COUNT(Id)");
             sqlbuilder.AppendLineFormatted("FROM [Games]");
             sqlbuilder.AppendLineFormatted("WHERE");
-            sqlbuilder.AppendLineFormatted("  [WinnerId] = {0}", id);
+            sqlbuilder.AppendLineFormatted("  [PaidById] = {0}", id);
 
             return connection.ExecuteScalar<int>(sqlbuilder.ToString());
         }
@@ -171,7 +163,7 @@ namespace BilliardsClubManager.Models
                 foreach(var player in connection.Query<PlayerModel>(sqlbuilder.ToString()))
                 {
                     player.GamesPlayed = GetGamesPlayed(connection, player.Id);
-                    player.GamesWon = GetGamesWon(connection, player.Id);
+                    player.GamesPaid = GetGamesPaid(connection, player.Id);
                     player.Balance = GetBalance(connection, player.Id);
                     players.Add(player);
                 } 
