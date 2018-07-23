@@ -17,6 +17,7 @@ namespace BilliardsClubManager.Models
         long _id;
         int _played, _won;
         string _name, _phone, _email;
+        decimal _balance;
 
         public PlayerModel()
         {
@@ -76,7 +77,23 @@ namespace BilliardsClubManager.Models
             get => GamesPlayed - GamesWon;
         }
 
+        [DisplayName("Balance")]
+        [Computed]
+        public decimal Balance
+        {
+            get => _balance;
+            private set => Set(nameof(Balance), ref _balance, value);
+        }
+
         #endregion
+
+        #region private methods
+
+        // TODO: add code to get balance
+        decimal GetBalance(IDbConnection connection, long id)
+        {
+            return 0;
+        }
 
         int GetGamesPlayed(IDbConnection connection, long id)
         {
@@ -102,6 +119,8 @@ namespace BilliardsClubManager.Models
 
             return connection.ExecuteScalar<int>(sqlbuilder.ToString());
         }
+
+        #endregion
 
         public string Delete()
         {
@@ -135,6 +154,7 @@ namespace BilliardsClubManager.Models
                 {
                     player.GamesPlayed = GetGamesPlayed(connection, player.Id);
                     player.GamesWon = GetGamesWon(connection, player.Id);
+                    player.Balance = GetBalance(connection, player.Id);
                     players.Add(player);
                 } 
             }

@@ -153,6 +153,22 @@ namespace BilliardsClubManager.Models
 
         #endregion
 
+        #region private methods
+
+        GameModel MapResult(GameModel game, TableModel table, GameStyleModel style, PlayerModel player1, PlayerModel player2, PlayerModel winner)
+        {
+            game.Table = table;
+            game.GameStyle = style;
+            game.Player1 = player1;
+            game.Player2 = player2;
+            game.Winner = winner;
+
+            if (game.State == GameState.Finished)
+                game.Compute(game.End);
+
+            return game;
+        }
+
         void UpdateState()
         {
             if (Start == null)
@@ -201,6 +217,8 @@ namespace BilliardsClubManager.Models
 
             return sqlBuilder.ToString();
         }
+
+        #endregion
 
         public void ResumeGame()
         {
@@ -270,20 +288,6 @@ namespace BilliardsClubManager.Models
         public IEnumerable<IRecord> Get(string searchKeywoard)
         {
             return Get(searchKeywoard, GameState.NotStarted, GameState.InProgress, GameState.Finished);
-        }
-
-        GameModel MapResult(GameModel game, TableModel table, GameStyleModel style, PlayerModel player1, PlayerModel player2, PlayerModel winner)
-        {
-            game.Table = table;
-            game.GameStyle = style;
-            game.Player1 = player1;
-            game.Player2 = player2;
-            game.Winner = winner;
-
-            if (game.State == GameState.Finished)
-                game.Compute(game.End);
-
-            return game;
         }
 
         public IRecord New()

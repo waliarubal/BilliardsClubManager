@@ -57,6 +57,16 @@
                 </Button>
                 <Button Command="{Binding Path=CreateEditorViewCommand, Mode=OneTime}" Style="{StaticResource ResourceKey=NavigationButtonStyle}">
                     <Button.CommandParameter>
+                        <vm:CreditNoteViewModel />
+                    </Button.CommandParameter>
+                    <StackPanel>
+                        <Image Source="/Assets/Images/cash-32.png" />
+                        <TextBlock Text="Credit Notes" />
+                    </StackPanel>
+                </Button>
+                <Separator />
+                <Button Command="{Binding Path=CreateEditorViewCommand, Mode=OneTime}" Style="{StaticResource ResourceKey=NavigationButtonStyle}">
+                    <Button.CommandParameter>
                         <vm:GameViewModel />
                     </Button.CommandParameter>
                     <StackPanel>
