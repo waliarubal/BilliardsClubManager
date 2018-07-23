@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data;
 using System.Text;
 using BilliardsClubManager.Base;
 using Dapper;
@@ -14,6 +15,7 @@ namespace BilliardsClubManager.Models
     class PlayerModel: NotificationBase, IRecord, IEquatable<PlayerModel>
     {
         long _id;
+        int _played, _won;
         string _name, _phone, _email;
 
         public PlayerModel()
@@ -51,7 +53,55 @@ namespace BilliardsClubManager.Models
             set => Set(nameof(Email), ref _email, value);
         }
 
+        [DisplayName("Games Played")]
+        [Computed]
+        public int GamesPlayed
+        {
+            get => _played;
+            private set => Set(nameof(GamesPlayed), ref _played, value);
+        }
+
+        [DisplayName("Games Won")]
+        [Computed]
+        public int GamesWon
+        {
+            get => _won;
+            private set => Set(nameof(GamesWon), ref _won, value);
+        }
+
+        [DisplayName("Games Lost")]
+        [Computed]
+        public int GamesLost
+        {
+            get => GamesPlayed - GamesWon;
+        }
+
         #endregion
+
+        int GetGamesPlayed(IDbConnection connection, long id)
+        {
+            var sqlbuilder = new StringBuilder();
+            sqlbuilder.AppendLineFormatted("SELECT");
+            sqlbuilder.AppendLineFormatted("  COUNT(Id)");
+            sqlbuilder.AppendLineFormatted("FROM [Games]");
+            sqlbuilder.AppendLineFormatted("WHERE");
+            sqlbuilder.AppendLineFormatted("  [Player1Id] = {0} OR", id);
+            sqlbuilder.AppendLineFormatted("  [Player2Id] = {0}", id);
+
+            return connection.ExecuteScalar<int>(sqlbuilder.ToString());
+        }
+
+        int GetGamesWon(IDbConnection connection, long id)
+        {
+            var sqlbuilder = new StringBuilder();
+            sqlbuilder.AppendLineFormatted("SELECT");
+            sqlbuilder.AppendLineFormatted("  COUNT(Id)");
+            sqlbuilder.AppendLineFormatted("FROM [Games]");
+            sqlbuilder.AppendLineFormatted("WHERE");
+            sqlbuilder.AppendLineFormatted("  [WinnerId] = {0}", id);
+
+            return connection.ExecuteScalar<int>(sqlbuilder.ToString());
+        }
 
         public string Delete()
         {
@@ -78,10 +128,17 @@ namespace BilliardsClubManager.Models
             sqlbuilder.AppendLineFormatted("WHERE");
             sqlbuilder.AppendLineFormatted("  [Name] LIKE '%{0}%'", searchKeywoard);
 
+            var players = new List<PlayerModel>();
             using (var connection = Shared.Instance.GetConnection())
             {
-                return connection.Query<PlayerModel>(sqlbuilder.ToString());
+                foreach(var player in connection.Query<PlayerModel>(sqlbuilder.ToString()))
+                {
+                    player.GamesPlayed = GetGamesPlayed(connection, player.Id);
+                    player.GamesWon = GetGamesWon(connection, player.Id);
+                    players.Add(player);
+                } 
             }
+            return players;
         }
 
         public IRecord New()

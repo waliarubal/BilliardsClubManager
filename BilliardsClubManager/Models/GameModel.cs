@@ -61,21 +61,21 @@ namespace BilliardsClubManager.Models
             set => Set(nameof(GameStyle), ref _style, value);
         }
 
-        [DisplayName("First Player (or Team)")]
+        [DisplayName("First Player")]
         public PlayerModel Player1
         {
             get => _player1;
             set => Set(nameof(Player1), ref _player1, value);
         }
 
-        [DisplayName("Second Player (or Team)")]
+        [DisplayName("Second Player")]
         public PlayerModel Player2
         {
             get => _player2;
             set => Set(nameof(Player2), ref _player2, value);
         }
 
-        [DisplayName("Winner Player (or Team)")]
+        [DisplayName("Winner")]
         public PlayerModel Winner
         {
             get => _winner;
@@ -111,6 +111,7 @@ namespace BilliardsClubManager.Models
         }
 
         [Computed]
+        [DisplayName("Time")]
         public TimeSpan Time
         {
             get => _runningTime;
@@ -118,6 +119,7 @@ namespace BilliardsClubManager.Models
         }
 
         [Computed]
+        [DisplayName("Charge (in ₹)")]
         public decimal Charge
         {
             get => _charge;
@@ -277,6 +279,10 @@ namespace BilliardsClubManager.Models
             game.Player1 = player1;
             game.Player2 = player2;
             game.Winner = winner;
+
+            if (game.State == GameState.Finished)
+                game.Compute(game.End);
+
             return game;
         }
 
