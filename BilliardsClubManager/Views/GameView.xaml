@@ -87,6 +87,6 @@
             Grid.Row="8"
             Grid.Column="1"
             IsEnabled="{Binding Path=IsSaveAllowed, Mode=OneWay}"
-            Text="{Binding Path=Record.Charge, Mode=OneWay, StringFormat='{}{0:####0.00}₹'}" />
+            Text="{Binding Path=Record.ChargeTotal, Mode=OneWay, StringFormat='{}{0:####0.00}₹'}" />
     </Grid>
 </UserControl>

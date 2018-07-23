@@ -89,10 +89,28 @@ namespace BilliardsClubManager.Models
 
         #region private methods
 
-        // TODO: add code to get balance
         decimal GetBalance(IDbConnection connection, long id)
         {
-            return 0;
+            var sqlbuilder = new StringBuilder();
+            sqlbuilder.AppendLineFormatted("SELECT");
+            sqlbuilder.AppendLineFormatted("  SUM(Amount)");
+            sqlbuilder.AppendLineFormatted("FROM [CreditNotes]");
+            sqlbuilder.AppendLineFormatted("WHERE");
+            sqlbuilder.AppendLineFormatted("  [PlayerId] = {0}", id);
+
+            var credit = connection.ExecuteScalar<decimal>(sqlbuilder.ToString());
+
+            sqlbuilder.Clear();
+            sqlbuilder.AppendLineFormatted("SELECT");
+            sqlbuilder.AppendLineFormatted("  SUM(ChargeTotal)");
+            sqlbuilder.AppendLineFormatted("FROM [Games]");
+            sqlbuilder.AppendLineFormatted("WHERE");
+            sqlbuilder.AppendLineFormatted("  ([Player1Id] = {0} OR [Player2Id] = {0}) AND", id);
+            sqlbuilder.AppendLineFormatted("  WinnerId != {0}", id);
+
+            var chargeTotal = connection.ExecuteScalar<decimal>(sqlbuilder.ToString());
+
+            return credit - chargeTotal;
         }
 
         int GetGamesPlayed(IDbConnection connection, long id)

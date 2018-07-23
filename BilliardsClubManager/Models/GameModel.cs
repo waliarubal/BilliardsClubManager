@@ -30,7 +30,7 @@ namespace BilliardsClubManager.Models
         GameStyleModel _style;
         TimeSpan _runningTime;
         Timer _timer;
-        decimal _charge;
+        decimal _charge, _chargeTotal;
 
         public GameModel()
         {
@@ -118,8 +118,14 @@ namespace BilliardsClubManager.Models
             private set => Set(nameof(Time), ref _runningTime, value);
         }
 
-        [Computed]
         [DisplayName("Charge (in ₹)")]
+        public decimal ChargeTotal
+        {
+            get => _chargeTotal;
+            set => Set(nameof(ChargeTotal), ref _chargeTotal, value);
+        }
+
+        [Computed]
         public decimal Charge
         {
             get => _charge;
@@ -183,6 +189,7 @@ namespace BilliardsClubManager.Models
         {
             Time = currentTime.Value.Subtract(Start.Value);
             Charge = (decimal)Time.TotalMinutes * Table.PricePerMinute;
+            ChargeTotal = Charge;
         }
 
         string GetSqlSelect(string searchKeywoard, params GameState[] gameStates)
@@ -341,7 +348,8 @@ namespace BilliardsClubManager.Models
                     sqlBuilder.AppendLineFormatted("SET");
                     sqlBuilder.AppendLineFormatted("  WinnerId = {0},", Winner.Id);
                     sqlBuilder.AppendLineFormatted("  End = '{0}',", End.Value);
-                    sqlBuilder.AppendLineFormatted("  State = {0}", (byte)State);
+                    sqlBuilder.AppendLineFormatted("  State = {0},", (byte)State);
+                    sqlBuilder.AppendLineFormatted("  ChargeTotal = {0}", ChargeTotal);
                     sqlBuilder.AppendLineFormatted("WHERE Id = {0};", Id);
 
                     isSaved = connection.Execute(sqlBuilder.ToString()) > 0;
