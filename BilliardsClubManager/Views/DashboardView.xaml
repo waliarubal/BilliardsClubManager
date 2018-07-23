@@ -28,14 +28,14 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Border
-                            Width="600"
-                            Height="300"
+                            Width="500"
+                            Height="250"
                             Margin="8"
                             BorderThickness="1">
                             <Border.Background>
                                 <ImageBrush ImageSource="/Assets/Images/pool-table.png" />
                             </Border.Background>
-                            <Grid Margin="40">
+                            <Grid Margin="32,28">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="Auto" />
@@ -44,16 +44,11 @@
 
                                 <TextBlock TextAlignment="Center" TextWrapping="WrapWithOverflow">
                                     <Run
-                                        FontSize="18"
+                                        FontSize="14"
                                         FontWeight="Bold"
                                         Text="{Binding Path=Table.Name, Mode=OneWay}" />
-                                    <Run FontSize="14" Text="{Binding Path=Table.PricePerMinute, Mode=OneWay, StringFormat=' ({0:###0.00}₹ per minute)'}" />
+                                    <Run FontSize="12" Text="{Binding Path=Table.PricePerMinute, Mode=OneWay, StringFormat=' ({0:###0.00}₹ per minute)'}" />
                                 </TextBlock>
-                                <Image
-                                    HorizontalAlignment="Left"
-                                    Source="/Assets/Images/billiard-ball-32.png"
-                                    Style="{StaticResource ResourceKey=SpinningImageStyle}"
-                                    Visibility="{Binding Path=IsInProgress, Mode=OneWay, Converter={StaticResource ResourceKey=BooleanToVisibilityConverter}}" />
                                 <Grid Grid.Row="1">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto" />
@@ -65,28 +60,42 @@
                                         <RowDefinition Height="Auto" />
                                     </Grid.RowDefinitions>
 
-                                    <Label Content="First Player (or team):" />
-                                    <ComboBox
-                                        Grid.Column="1"
-                                        IsEnabled="{Binding Path=IsNotStarted, Mode=OneWay}"
-                                        ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}, Mode=OneWay, Path=DataContext.Players}"
-                                        SelectedItem="{Binding Path=Player1, Mode=TwoWay}" />
+                                    <Grid Grid.ColumnSpan="2">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <ComboBox ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}, Mode=OneWay, Path=DataContext.Players}" SelectedValue="{Binding Path=Player1, Mode=TwoWay}" />
+                                        <TextBlock
+                                            Grid.Column="1"
+                                            Text="V/S"
+                                            Visibility="{Binding Path=IsInProgress, Mode=OneWay, Converter={StaticResource ResourceKey=InverseBooleanToVisibilityConverter}}" />
+                                        <Image
+                                            Grid.Column="1"
+                                            Source="/Assets/Images/billiard-ball-32.png"
+                                            Style="{StaticResource ResourceKey=SpinningImageStyle}"
+                                            Visibility="{Binding Path=IsInProgress, Mode=OneWay, Converter={StaticResource ResourceKey=BooleanToVisibilityConverter}}" />
+                                        <ComboBox
+                                            Grid.Column="2"
+                                            ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}, Mode=OneWay, Path=DataContext.Players}"
+                                            SelectedValue="{Binding Path=Player2, Mode=TwoWay}" />
+                                    </Grid>
 
-                                    <Label Grid.Row="1" Content="Second Player (or team):" />
+                                    <Label Grid.Row="1" Content="Game Style:" />
                                     <ComboBox
                                         Grid.Row="1"
                                         Grid.Column="1"
-                                        IsEnabled="{Binding Path=IsNotStarted, Mode=OneWay}"
-                                        ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}, Mode=OneWay, Path=DataContext.Players}"
-                                        SelectedItem="{Binding Path=Player2, Mode=TwoWay}" />
+                                        ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}, Mode=OneWay, Path=DataContext.GameStyles}"
+                                        SelectedValue="{Binding Path=GameStyle, Mode=TwoWay}" />
 
-                                    <Label Grid.Row="2" Content="Winner Player (or team):" />
+                                    <Label Grid.Row="2" Content="Winner:" />
                                     <ComboBox
                                         Grid.Row="2"
                                         Grid.Column="1"
                                         IsEnabled="{Binding Path=IsFinished, Mode=OneWay}"
                                         ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}, Mode=OneWay, Path=DataContext.Players}"
-                                        SelectedItem="{Binding Path=Winner, Mode=TwoWay}" />
+                                        SelectedValue="{Binding Path=Winner, Mode=TwoWay}" />
                                 </Grid>
 
                                 <Grid Grid.Row="2">
@@ -101,11 +110,11 @@
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition Height="Auto" />
                                     </Grid.RowDefinitions>
-                                    <TextBlock FontSize="22" TextAlignment="Center">
+                                    <TextBlock FontSize="16" TextAlignment="Center">
                                         <Run FontWeight="Bold" Text="{Binding Path=Time.Hours, Mode=OneWay, StringFormat='{}{0:00} :'}" />
                                         <Run FontWeight="Bold" Text="{Binding Path=Time.Minutes, Mode=OneWay, StringFormat='{}{0:00} :'}" />
                                         <Run FontWeight="Bold" Text="{Binding Path=Time.Seconds, Mode=OneWay, StringFormat='{}{0:00}'}" />
-                                        <Run FontSize="18" Text="{Binding Path=Charge, Mode=OneWay, StringFormat=' (Charge {0:###0.00}₹)'}" />
+                                        <Run FontSize="14" Text="{Binding Path=Charge, Mode=OneWay, StringFormat=' (Charge {0:###0.00}₹)'}" />
                                     </TextBlock>
                                     <StackPanel Grid.Row="1">
                                         <Button

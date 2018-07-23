@@ -48,6 +48,15 @@
                 <Separator />
                 <Button Command="{Binding Path=CreateEditorViewCommand, Mode=OneTime}" Style="{StaticResource ResourceKey=NavigationButtonStyle}">
                     <Button.CommandParameter>
+                        <vm:PlayerViewModel />
+                    </Button.CommandParameter>
+                    <StackPanel>
+                        <Image Source="/Assets/Images/teams-32.png" />
+                        <TextBlock Text="Players" />
+                    </StackPanel>
+                </Button>
+                <Button Command="{Binding Path=CreateEditorViewCommand, Mode=OneTime}" Style="{StaticResource ResourceKey=NavigationButtonStyle}">
+                    <Button.CommandParameter>
                         <vm:GameViewModel />
                     </Button.CommandParameter>
                     <StackPanel>
@@ -57,11 +66,11 @@
                 </Button>
                 <Button Command="{Binding Path=CreateEditorViewCommand, Mode=OneTime}" Style="{StaticResource ResourceKey=NavigationButtonStyle}">
                     <Button.CommandParameter>
-                        <vm:PlayerViewModel />
+                        <vm:GameStyleViewModel />
                     </Button.CommandParameter>
                     <StackPanel>
-                        <Image Source="/Assets/Images/teams-32.png" />
-                        <TextBlock Text="Players" />
+                        <Image Source="/Assets/Images/billiard-ball-32.png" />
+                        <TextBlock Text="Game Styles" />
                     </StackPanel>
                 </Button>
                 <Button Command="{Binding Path=CreateEditorViewCommand, Mode=OneTime}" Style="{StaticResource ResourceKey=NavigationButtonStyle}">

@@ -1,19 +1,19 @@
 ﻿using BilliardsClubManager.Models;
 using NullVoidCreations.WpfHelpers.Base;
 using NullVoidCreations.WpfHelpers.Commands;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
 namespace BilliardsClubManager.ViewModels
 {
-    class DashboardViewModel: ViewModelBase
+    class DashboardViewModel : ViewModelBase
     {
         ICommand _refresh, _startGame, _endGame, _saveGame;
 
         ObservableCollection<GameModel> _games;
         IEnumerable<PlayerModel> _players;
+        IEnumerable<GameStyleModel> _gameStyles;
 
         #region properties
 
@@ -32,6 +32,12 @@ namespace BilliardsClubManager.ViewModels
         {
             get => _players;
             private set => Set(nameof(Players), ref _players, value);
+        }
+
+        public IEnumerable<GameStyleModel> GameStyles
+        {
+            get => _gameStyles;
+            private set => Set(nameof(GameStyles), ref _gameStyles, value);
         }
 
         #endregion
@@ -96,7 +102,7 @@ namespace BilliardsClubManager.ViewModels
 
         void SaveGame(GameModel game)
         {
-            if(game.Save() == null)
+            if (game.Save() == null)
             {
                 var table = game.Table;
                 var index = Games.IndexOf(game);
@@ -108,12 +114,13 @@ namespace BilliardsClubManager.ViewModels
         IEnumerable<GameModel> Refresh(object argument)
         {
             Players = new PlayerModel().Get(string.Empty) as IEnumerable<PlayerModel>;
+            GameStyles = new GameStyleModel().Get(string.Empty) as IEnumerable<GameStyleModel>;
 
-            var games = new List<GameModel>();
             var addedTableIds = new HashSet<long>();
+            var games = new List<GameModel>();
 
             var inProgressGames = new GameModel().Get(string.Empty, GameState.InProgress);
-            foreach(GameModel game in inProgressGames)
+            foreach (GameModel game in inProgressGames)
             {
                 if (addedTableIds.Contains(game.Table.Id))
                     continue;

@@ -40,6 +40,6 @@
             Grid.Column="1"
             IsEnabled="{Binding Path=IsSaveAllowed, Mode=OneWay}"
             ItemsSource="{Binding Path=Switches, Mode=OneTime}"
-            SelectedItem="{Binding Path=Record.Switch, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            SelectedValue="{Binding Path=Record.Switch, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
     </Grid>
 </UserControl>

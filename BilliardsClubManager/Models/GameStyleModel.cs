@@ -1,22 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Text;
-using BilliardsClubManager.Base;
+﻿using BilliardsClubManager.Base;
 using Dapper;
 using Dapper.Contrib.Extensions;
 using NullVoidCreations.WpfHelpers;
 using NullVoidCreations.WpfHelpers.Base;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Text;
 
 namespace BilliardsClubManager.Models
 {
-    [Table("Players")]
-    class PlayerModel: NotificationBase, IRecord, IEquatable<PlayerModel>
+    [Table("GameStyles")]
+    class GameStyleModel: NotificationBase, IRecord, IEquatable<GameStyleModel>
     {
         long _id;
-        string _name, _phone, _email;
+        string _name;
 
-        public PlayerModel()
+        public GameStyleModel()
         {
             Id = -1;
         }
@@ -30,25 +30,11 @@ namespace BilliardsClubManager.Models
             set => Set(nameof(Id), ref _id, value);
         }
 
-        [DisplayName("Full Name")]
+        [DisplayName("Name")]
         public string Name
         {
             get => _name;
             set => Set(nameof(Name), ref _name, value);
-        }
-
-        [DisplayName("Phone Number")]
-        public string Phone
-        {
-            get => _phone;
-            set => Set(nameof(Phone), ref _phone, value);
-        }
-
-        [DisplayName("E-mail Address")]
-        public string Email
-        {
-            get => _email;
-            set => Set(nameof(Email), ref _email, value);
         }
 
         #endregion
@@ -65,7 +51,7 @@ namespace BilliardsClubManager.Models
         {
             using (var connection = Shared.Instance.GetConnection())
             {
-                return connection.Get<TableModel>(id);
+                return connection.Get<GameStyleModel>(id);
             }
         }
 
@@ -74,25 +60,25 @@ namespace BilliardsClubManager.Models
             var sqlbuilder = new StringBuilder();
             sqlbuilder.AppendLineFormatted("SELECT");
             sqlbuilder.AppendLineFormatted("  *");
-            sqlbuilder.AppendLineFormatted("FROM [Players]");
+            sqlbuilder.AppendLineFormatted("FROM [GameStyles]");
             sqlbuilder.AppendLineFormatted("WHERE");
             sqlbuilder.AppendLineFormatted("  [Name] LIKE '%{0}%'", searchKeywoard);
 
             using (var connection = Shared.Instance.GetConnection())
             {
-                return connection.Query<PlayerModel>(sqlbuilder.ToString());
+                return connection.Query<GameStyleModel>(sqlbuilder.ToString());
             }
         }
 
         public IRecord New()
         {
-            return new PlayerModel();
+            return new GameStyleModel();
         }
 
         public string Save()
         {
             if (string.IsNullOrEmpty(Name))
-                return "Player name not specified.";
+                return "Game style not specified.";
 
             using (var connection = Shared.Instance.GetConnection())
             {
@@ -111,9 +97,10 @@ namespace BilliardsClubManager.Models
             return Name;
         }
 
-        public bool Equals(PlayerModel other)
+        public bool Equals(GameStyleModel other)
         {
-            return other != null && Id.Equals(other.Id);
+            return other != null && Id == other.Id;
         }
+
     }
 }

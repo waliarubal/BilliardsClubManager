@@ -22,6 +22,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <Label Content="Table:" />
@@ -30,37 +31,44 @@
             IsEnabled="{Binding Path=IsSaveAllowed, Mode=OneWay}"
             Text="{Binding Path=Record.Table.Name, Mode=TwoWay}" />
 
-        <Label Grid.Row="1" Content="First Player (or Team):" />
+        <Label Grid.Row="1" Content="Game Style:" />
         <TextBox
             Grid.Row="1"
             Grid.Column="1"
             IsEnabled="{Binding Path=IsSaveAllowed, Mode=OneWay}"
-            Text="{Binding Path=Record.Player1.Name, Mode=TwoWay}" />
+            Text="{Binding Path=Record.GameStyle.Name, Mode=TwoWay}" />
 
-        <Label Grid.Row="2" Content="Second Player (or Team):" />
+        <Label Grid.Row="2" Content="First Player (or Team):" />
         <TextBox
             Grid.Row="2"
             Grid.Column="1"
             IsEnabled="{Binding Path=IsSaveAllowed, Mode=OneWay}"
-            Text="{Binding Path=Record.Player2.Name, Mode=TwoWay}" />
+            Text="{Binding Path=Record.Player1.Name, Mode=TwoWay}" />
 
-        <Label Grid.Row="3" Content="Start (Date &amp; Time):" />
+        <Label Grid.Row="3" Content="Second Player (or Team):" />
         <TextBox
             Grid.Row="3"
             Grid.Column="1"
             IsEnabled="{Binding Path=IsSaveAllowed, Mode=OneWay}"
-            Text="{Binding Path=Record.Start, Mode=TwoWay}" />
+            Text="{Binding Path=Record.Player2.Name, Mode=TwoWay}" />
 
-        <Label Grid.Row="4" Content="End (Date &amp; Time):" />
+        <Label Grid.Row="4" Content="Start (Date &amp; Time):" />
         <TextBox
             Grid.Row="4"
             Grid.Column="1"
             IsEnabled="{Binding Path=IsSaveAllowed, Mode=OneWay}"
-            Text="{Binding Path=Record.End, Mode=TwoWay}" />
+            Text="{Binding Path=Record.Start, Mode=TwoWay}" />
 
-        <Label Grid.Row="5" Content="Winner Player (or Team):" />
+        <Label Grid.Row="5" Content="End (Date &amp; Time):" />
         <TextBox
             Grid.Row="5"
+            Grid.Column="1"
+            IsEnabled="{Binding Path=IsSaveAllowed, Mode=OneWay}"
+            Text="{Binding Path=Record.End, Mode=TwoWay}" />
+
+        <Label Grid.Row="6" Content="Winner Player (or Team):" />
+        <TextBox
+            Grid.Row="6"
             Grid.Column="1"
             IsEnabled="{Binding Path=IsSaveAllowed, Mode=OneWay}"
             Text="{Binding Path=Record.Winner.Name, Mode=TwoWay}" />

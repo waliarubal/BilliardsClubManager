@@ -27,6 +27,7 @@ namespace BilliardsClubManager.Models
         DateTime? _start, _end;
         string _errorMessage;
         GameState _state;
+        GameStyleModel _style;
         TimeSpan _runningTime;
         Timer _timer;
         decimal _charge;
@@ -51,6 +52,13 @@ namespace BilliardsClubManager.Models
         {
             get => _table;
             set => Set(nameof(Table), ref _table, value);
+        }
+
+        [DisplayName("Game Style")]
+        public GameStyleModel GameStyle
+        {
+            get => _style;
+            set => Set(nameof(GameStyle), ref _style, value);
         }
 
         [DisplayName("First Player (or Team)")]
@@ -166,12 +174,14 @@ namespace BilliardsClubManager.Models
             sqlBuilder.AppendLineFormatted(" *");
             sqlBuilder.AppendLineFormatted("FROM [Games] AS G");
             sqlBuilder.AppendLineFormatted("INNER JOIN [Tables] AS T ON G.TableId = T.Id");
+            sqlBuilder.AppendLineFormatted("INNER JOIN [GameStyles] AS GS ON G.GameStyleId = GS.Id");
             sqlBuilder.AppendLineFormatted("LEFT JOIN [Players] AS P1 ON G.Player1Id = P1.Id");
             sqlBuilder.AppendLineFormatted("LEFT JOIN [Players] AS P2 ON G.Player2Id = P2.Id");
             sqlBuilder.AppendLineFormatted("LEFT JOIN [Players] AS W ON G.WinnerId = W.Id");
             sqlBuilder.AppendLineFormatted("WHERE");
             sqlBuilder.AppendLineFormatted("(");
             sqlBuilder.AppendLineFormatted("  T.Name LIKE '%{0}%' OR", searchKeywoard);
+            sqlBuilder.AppendLineFormatted("  GS.Name LIKE '%{0}%' OR", searchKeywoard);
             sqlBuilder.AppendLineFormatted("  P1.Name LIKE '%{0}%' OR", searchKeywoard);
             sqlBuilder.AppendLineFormatted("  P2.Name LIKE '%{0}%' OR", searchKeywoard);
             sqlBuilder.AppendLineFormatted("  W.Name LIKE '%{0}%'", searchKeywoard);
@@ -251,7 +261,7 @@ namespace BilliardsClubManager.Models
             var sql = GetSqlSelect(searchKeywoard, gameStates);
             using (var connection = Shared.Instance.GetConnection())
             {
-                return connection.Query<GameModel, TableModel, PlayerModel, PlayerModel, PlayerModel, GameModel>(sql, MapResult);
+                return connection.Query<GameModel, TableModel, GameStyleModel, PlayerModel, PlayerModel, PlayerModel, GameModel>(sql, MapResult);
             }
         }
 
@@ -260,9 +270,10 @@ namespace BilliardsClubManager.Models
             return Get(searchKeywoard, GameState.NotStarted, GameState.InProgress, GameState.Finished);
         }
 
-        GameModel MapResult(GameModel game, TableModel table, PlayerModel player1, PlayerModel player2, PlayerModel winner)
+        GameModel MapResult(GameModel game, TableModel table, GameStyleModel style, PlayerModel player1, PlayerModel player2, PlayerModel winner)
         {
             game.Table = table;
+            game.GameStyle = style;
             game.Player1 = player1;
             game.Player2 = player2;
             game.Winner = winner;
@@ -279,6 +290,8 @@ namespace BilliardsClubManager.Models
             ErrorMessage = null;
             if (Table == null)
                 ErrorMessage = "Table not specified.";
+            else if (GameStyle == null)
+                ErrorMessage = "Game style not specified.";
             else if (Player1 == null)
                 ErrorMessage = "First player (or team) not specified.";
             else if (Player2 == null)
@@ -305,8 +318,8 @@ namespace BilliardsClubManager.Models
                 var sqlBuilder = new StringBuilder();
                 if (Id == -1)
                 {
-                    sqlBuilder.AppendLineFormatted("INSERT INTO [Games] (TableId, Player1Id, Player2Id, Start, State)");
-                    sqlBuilder.AppendLineFormatted("VALUES ({0}, {1}, {2}, '{3}', {4});", Table.Id, Player1.Id, Player2.Id, Start.Value, (byte)State);
+                    sqlBuilder.AppendLineFormatted("INSERT INTO [Games] (TableId, Player1Id, Player2Id, Start, State, GameStyleId)");
+                    sqlBuilder.AppendLineFormatted("VALUES ({0}, {1}, {2}, '{3}', {4}, {5});", Table.Id, Player1.Id, Player2.Id, Start.Value, (byte)State, GameStyle.Id);
                     sqlBuilder.AppendLineFormatted("SELECT last_insert_rowid();");
 
                     Id = connection.ExecuteScalar<long>(sqlBuilder.ToString());
