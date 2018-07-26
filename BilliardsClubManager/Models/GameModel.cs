@@ -323,8 +323,6 @@ namespace BilliardsClubManager.Models
                     ErrorMessage = "Game end date & time not specified.";
                 else if (PaidBy == null)
                     ErrorMessage = "Payer not specified.";
-                else if (!PaidBy.Equals(Player1) && !PaidBy.Equals(Player2))
-                    ErrorMessage = "Payer must be one of the first or second player (or team).";
             }
             if (ErrorMessage != null)
                 return ErrorMessage;

@@ -14,6 +14,8 @@ namespace BilliardsClubManager.ViewModels
         ObservableCollection<GameModel> _games;
         IEnumerable<PlayerModel> _players;
         IEnumerable<GameStyleModel> _gameStyles;
+        GameStyleModel _defaultGameStyle;
+        PlayerModel _defaultPlayer1, _defaultPlayer2;
 
         #region properties
 
@@ -38,6 +40,39 @@ namespace BilliardsClubManager.ViewModels
         {
             get => _gameStyles;
             private set => Set(nameof(GameStyles), ref _gameStyles, value);
+        }
+
+        public GameStyleModel DefaultGameStyle
+        {
+            get
+            {
+                if (_defaultGameStyle == null)
+                    _defaultGameStyle = new GameStyleModel().Get(1) as GameStyleModel;
+
+                return _defaultGameStyle;
+            }
+        }
+
+        public PlayerModel DefaultPlayer1
+        {
+            get
+            {
+                if (_defaultPlayer1 == null)
+                    _defaultPlayer1 = new PlayerModel().Get(1) as PlayerModel;
+
+                return _defaultPlayer1;
+            }
+        }
+
+        public PlayerModel DefaultPlayer2
+        {
+            get
+            {
+                if (_defaultPlayer2 == null)
+                    _defaultPlayer2 = new PlayerModel().Get(2) as PlayerModel;
+
+                return _defaultPlayer2;
+            }
         }
 
         #endregion
@@ -105,9 +140,17 @@ namespace BilliardsClubManager.ViewModels
             if (game.Save() == null)
             {
                 var table = game.Table;
+                var newGame = new GameModel
+                {
+                    Table = table,
+                    GameStyle = DefaultGameStyle,
+                    Player1 = DefaultPlayer1,
+                    Player2 = DefaultPlayer2
+                };
                 var index = Games.IndexOf(game);
+
                 Games.RemoveAt(index);
-                Games.Insert(index, new GameModel { Table = table });
+                Games.Insert(index, newGame);
             }
         }
 
@@ -130,7 +173,13 @@ namespace BilliardsClubManager.ViewModels
                 }
                 else
                 {
-                    var game = new GameModel { Table = table };
+                    var game = new GameModel
+                    {
+                        Table = table,
+                        GameStyle = DefaultGameStyle,
+                        Player1 = DefaultPlayer1,
+                        Player2 = DefaultPlayer2
+                    };
                     games.Add(game);
                 }
             }
@@ -142,9 +191,7 @@ namespace BilliardsClubManager.ViewModels
         {
             Games.Clear();
             foreach (var game in games)
-            {
                 Games.Add(game);
-            }
         }
     }
 }

@@ -144,7 +144,7 @@ namespace BilliardsClubManager.Models
         {
             using (var connection = Shared.Instance.GetConnection())
             {
-                return connection.Get<TableModel>(id);
+                return connection.Get<PlayerModel>(id);
             }
         }
 
