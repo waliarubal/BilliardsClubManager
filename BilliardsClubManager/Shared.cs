@@ -1,14 +1,18 @@
-﻿using Devart.Data.SQLite;
+﻿using BilliardsClubManager.Models;
+using Devart.Data.SQLite;
 using NullVoidCreations.WpfHelpers;
+using NullVoidCreations.WpfHelpers.Base;
 using System.Data;
 using System.IO;
 using System.Windows;
 
 namespace BilliardsClubManager
 {
-    class Shared
+    class Shared: NotificationBase
     {
         static Shared _instance;
+        PlayerModel _defaultFirstPlayer, _defaultSecondPlayer;
+        GameStyleModel _defaultGameStyle;
 
         private Shared()
         {
@@ -29,6 +33,24 @@ namespace BilliardsClubManager
         }
 
         public string StartupDirectory { get; }
+
+        public PlayerModel DefaultFirstPlayer
+        {
+            get => _defaultFirstPlayer;
+            set => Set(nameof(DefaultFirstPlayer), ref _defaultFirstPlayer, value);
+        }
+
+        public PlayerModel DefaultSecondPlayer
+        {
+            get => _defaultSecondPlayer;
+            set => Set(nameof(DefaultSecondPlayer), ref _defaultSecondPlayer, value);
+        }
+
+        public GameStyleModel DefaultGameStyle
+        {
+            get => _defaultGameStyle;
+            set => Set(nameof(DefaultGameStyle), ref _defaultGameStyle, value);
+        }
 
         #endregion
 

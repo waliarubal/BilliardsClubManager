@@ -14,8 +14,6 @@ namespace BilliardsClubManager.ViewModels
         ObservableCollection<GameModel> _games;
         IEnumerable<PlayerModel> _players;
         IEnumerable<GameStyleModel> _gameStyles;
-        GameStyleModel _defaultGameStyle;
-        PlayerModel _defaultPlayer1, _defaultPlayer2;
 
         #region properties
 
@@ -44,35 +42,17 @@ namespace BilliardsClubManager.ViewModels
 
         public GameStyleModel DefaultGameStyle
         {
-            get
-            {
-                if (_defaultGameStyle == null)
-                    _defaultGameStyle = new GameStyleModel().Get(1) as GameStyleModel;
-
-                return _defaultGameStyle;
-            }
+            get => Shared.Instance.DefaultGameStyle;
         }
 
         public PlayerModel DefaultPlayer1
         {
-            get
-            {
-                if (_defaultPlayer1 == null)
-                    _defaultPlayer1 = new PlayerModel().Get(1) as PlayerModel;
-
-                return _defaultPlayer1;
-            }
+            get => Shared.Instance.DefaultFirstPlayer;
         }
 
         public PlayerModel DefaultPlayer2
         {
-            get
-            {
-                if (_defaultPlayer2 == null)
-                    _defaultPlayer2 = new PlayerModel().Get(2) as PlayerModel;
-
-                return _defaultPlayer2;
-            }
+            get => Shared.Instance.DefaultSecondPlayer;
         }
 
         #endregion
