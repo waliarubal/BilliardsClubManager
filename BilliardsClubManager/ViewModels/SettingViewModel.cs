@@ -10,7 +10,8 @@ namespace BilliardsClubManager.ViewModels
     class SettingViewModel: ViewModelBase
     {
         IEnumerable<PlayerModel> _players;
-        ICommand _initialize;
+        IEnumerable<GameStyleModel> _styles;
+        ICommand _initialize, _save;
 
         public SettingViewModel()
         {
@@ -30,6 +31,12 @@ namespace BilliardsClubManager.ViewModels
             private set => Set(nameof(Players), ref _players, value);
         }
 
+        public IEnumerable<GameStyleModel> GameStyles
+        {
+            get => _styles;
+            private set => Set(nameof(GameStyles), ref _styles, value);
+        }
+
         public PlayerModel DefaultFirstPlayer
         {
             get => Shared.Instance.DefaultFirstPlayer;
@@ -40,6 +47,22 @@ namespace BilliardsClubManager.ViewModels
         {
             get => Shared.Instance.DefaultSecondPlayer;
             set => Shared.Instance.DefaultSecondPlayer = value;
+        }
+
+        public GameStyleModel DefaultGameStyle
+        {
+            get => Shared.Instance.DefaultGameStyle;
+            set => Shared.Instance.DefaultGameStyle = value;
+        }
+
+        public string SettingsFile
+        {
+            get => Shared.Instance.SettingsFile;
+        }
+
+        public string DatabaseFile
+        {
+            get => Shared.Instance.DatabaseFile;
         }
 
         #endregion
@@ -57,6 +80,17 @@ namespace BilliardsClubManager.ViewModels
             }
         }
 
+        public ICommand SaveCommand
+        {
+            get
+            {
+                if (_save == null)
+                    _save = new RelayCommand(Save);
+
+                return _save;
+            }
+        }
+
         #endregion
 
         void OnSharedPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -67,6 +101,12 @@ namespace BilliardsClubManager.ViewModels
         void Initialize()
         {
             Players = new PlayerModel().Get(string.Empty) as IEnumerable<PlayerModel>;
+            GameStyles = new GameStyleModel().Get(string.Empty) as IEnumerable<GameStyleModel>;
+        }
+
+        void Save()
+        {
+            Shared.Instance.SaveSettings();
         }
     }
 }
