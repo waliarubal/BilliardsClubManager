@@ -15,12 +15,14 @@ namespace BilliardsClubManager
         static Shared _instance;
         PlayerModel _defaultFirstPlayer, _defaultSecondPlayer;
         GameStyleModel _defaultGameStyle;
+        StrongLicense _license;
 
         private Shared()
         {
             StartupDirectory = Application.Current.GetStartupDirectory();
             SettingsFile = Path.Combine(StartupDirectory, "Assets", "Settings.aes");
             DatabaseFile = Path.Combine(StartupDirectory, "Assets", "Database.sqlite3");
+            LicenseFile = Path.Combine(StartupDirectory, "Assets", "License.xml");
         }
 
         #region properties
@@ -42,6 +44,8 @@ namespace BilliardsClubManager
 
         public string DatabaseFile { get; }
 
+        public string LicenseFile { get; }
+
         public PlayerModel DefaultFirstPlayer
         {
             get => _defaultFirstPlayer;
@@ -58,6 +62,17 @@ namespace BilliardsClubManager
         {
             get => _defaultGameStyle;
             set => Set(nameof(DefaultGameStyle), ref _defaultGameStyle, value);
+        }
+
+        public StrongLicense License
+        {
+            get => _license;
+            set => Set(nameof(License), ref _license, value);
+        }
+
+        public bool IsLicensed
+        {
+            get { return License != null && License.IsActivated; }
         }
 
         #endregion

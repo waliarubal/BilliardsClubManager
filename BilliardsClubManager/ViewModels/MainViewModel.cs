@@ -57,6 +57,11 @@ namespace BilliardsClubManager.ViewModels
             }
         }
 
+        public bool IsLicensed
+        {
+            get { return Shared.Instance.IsLicensed; }
+        }
+
 
         #endregion
 
