@@ -1,7 +1,7 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:c="clr-namespace:NullVoidCreations.WpfHelpers.Converters;assembly=NullVoidCreations.WpfHelpers"
+    xmlns:wh="http://schemas.nullvoidcreations.com/wpfhelpers"
     xmlns:xwtk="http://schemas.xceed.com/wpf/xaml/toolkit">
     <Style x:Key="BaseStyle" TargetType="FrameworkElement">
         <Setter Property="Margin" Value="2" />
@@ -33,8 +33,8 @@
 
 
     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-    <c:InverseBooleanConverter x:Key="InverseBooleanConverter" />
-    <c:InverseBooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter" />
+    <wh:InverseBooleanConverter x:Key="InverseBooleanConverter" />
+    <wh:InverseBooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter" />
 
     <!--  named styles  -->
     <Style

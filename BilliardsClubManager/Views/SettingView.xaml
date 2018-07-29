@@ -6,7 +6,6 @@
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="clr-namespace:BilliardsClubManager.ViewModels"
-    d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
     <UserControl.DataContext>
@@ -25,17 +24,55 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <Label Grid.Row="0" Content="Default First Player:" />
-        <ComboBox
+        <Label Grid.Row="0" Content="Settings File:" />
+        <TextBlock
             Grid.Row="0"
             Grid.Column="1"
-            ItemsSource="{Binding Path=Players, Mode=OneWay}" />
+            Text="{Binding Path=SettingsFile, Mode=OneTime}"
+            TextWrapping="WrapWithOverflow" />
 
-        <Label Grid.Row="1" Content="Default Second Player:" />
-        <ComboBox
+        <Label Grid.Row="1" Content="Database File:" />
+        <TextBlock
             Grid.Row="1"
             Grid.Column="1"
-            ItemsSource="{Binding Path=Players, Mode=OneWay}" />
+            Text="{Binding Path=DatabaseFile, Mode=OneTime}"
+            TextWrapping="WrapWithOverflow" />
+
+        <Label Grid.Row="2" Content="Default First Player:" />
+        <ComboBox
+            Grid.Row="2"
+            Grid.Column="1"
+            ItemsSource="{Binding Path=Players, Mode=OneWay}"
+            SelectedValue="{Binding Path=DefaultFirstPlayer, Mode=TwoWay}" />
+
+        <Label Grid.Row="3" Content="Default Second Player:" />
+        <ComboBox
+            Grid.Row="3"
+            Grid.Column="1"
+            ItemsSource="{Binding Path=Players, Mode=OneWay}"
+            SelectedValue="{Binding Path=DefaultSecondPlayer, Mode=TwoWay}" />
+
+        <Label Grid.Row="4" Content="Default Game Style:" />
+        <ComboBox
+            Grid.Row="4"
+            Grid.Column="1"
+            ItemsSource="{Binding Path=GameStyles, Mode=OneWay}"
+            SelectedValue="{Binding Path=DefaultGameStyle, Mode=TwoWay}" />
+
+        <Button
+            Grid.Row="5"
+            Grid.ColumnSpan="2"
+            HorizontalAlignment="Right"
+            Command="{Binding Path=SaveCommand, Mode=OneTime}">
+            <StackPanel Orientation="Horizontal">
+                <Image Source="/Assets/Images/save-32.png" />
+                <TextBlock Text="Save" />
+            </StackPanel>
+        </Button>
     </Grid>
 </UserControl>

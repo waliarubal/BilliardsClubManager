@@ -8,7 +8,7 @@ namespace BilliardsClubManager.ViewModels
 {
     class MainViewModel: ViewModelBase
     {
-        ICommand _createEditorView, _createChildView;
+        ICommand _createEditorView, _createChildView, _initialize;
 
         Control _childView;
 
@@ -46,7 +46,24 @@ namespace BilliardsClubManager.ViewModels
             }
         }
 
+        public ICommand InitializeCommand
+        {
+            get
+            {
+                if (_initialize == null)
+                    _initialize = new RelayCommand(Initialize);
+
+                return _initialize;
+            }
+        }
+
+
         #endregion
+
+        void Initialize()
+        {
+            Shared.Instance.LoadSettings();
+        }
 
         void CreateChildView(ViewModelBase viewModel)
         {

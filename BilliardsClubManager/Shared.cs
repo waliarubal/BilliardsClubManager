@@ -10,6 +10,8 @@ namespace BilliardsClubManager
 {
     class Shared: NotificationBase
     {
+        const string PASSWORD = "!Control*88";
+
         static Shared _instance;
         PlayerModel _defaultFirstPlayer, _defaultSecondPlayer;
         GameStyleModel _defaultGameStyle;
@@ -17,6 +19,8 @@ namespace BilliardsClubManager
         private Shared()
         {
             StartupDirectory = Application.Current.GetStartupDirectory();
+            SettingsFile = Path.Combine(StartupDirectory, "Assets", "Settings.aes");
+            DatabaseFile = Path.Combine(StartupDirectory, "Assets", "Database.sqlite3");
         }
 
         #region properties
@@ -33,6 +37,10 @@ namespace BilliardsClubManager
         }
 
         public string StartupDirectory { get; }
+
+        public string SettingsFile { get; }
+
+        public string DatabaseFile { get; }
 
         public PlayerModel DefaultFirstPlayer
         {
@@ -58,7 +66,7 @@ namespace BilliardsClubManager
         {
             var connectionStringBuilder = new SQLiteConnectionStringBuilder
             {
-                DataSource = Path.Combine(StartupDirectory, "Assets", "Database.sqlite3"),
+                DataSource = DatabaseFile,
                 FailIfMissing = true,
                 ConnectionTimeout = 20,
                 Locking = LockingMode.Exclusive,
@@ -70,6 +78,24 @@ namespace BilliardsClubManager
             connection.Open();
 
             return connection;
+        }
+
+        public void LoadSettings()
+        {
+            var settings = new SettingsManager();
+            settings.Load(SettingsFile, PASSWORD);
+            DefaultFirstPlayer = new PlayerModel().Get(settings.GetValue<long>(nameof(DefaultFirstPlayer), 1)) as PlayerModel;
+            DefaultSecondPlayer = new PlayerModel().Get(settings.GetValue<long>(nameof(DefaultSecondPlayer), 2)) as PlayerModel;
+            DefaultGameStyle = new GameStyleModel().Get(settings.GetValue<long>(nameof(DefaultGameStyle), 1)) as GameStyleModel;
+        }
+
+        public void SaveSettings()
+        {
+            var settings = new SettingsManager();
+            settings.SetValue(nameof(DefaultFirstPlayer), DefaultFirstPlayer.Id);
+            settings.SetValue(nameof(DefaultSecondPlayer), DefaultSecondPlayer.Id);
+            settings.SetValue(nameof(DefaultGameStyle), DefaultGameStyle.Id);
+            settings.Save(SettingsFile, PASSWORD);
         }
     }
 }
