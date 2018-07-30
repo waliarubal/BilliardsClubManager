@@ -98,6 +98,7 @@
     <Compile Include="Models\PlayerModel.cs" />
     <Compile Include="Models\TableModel.cs" />
     <Compile Include="Shared.cs" />
+    <Compile Include="Switch.cs" />
     <Compile Include="ViewModels\CreditNoteViewModel.cs" />
     <Compile Include="ViewModels\DashboardViewModel.cs" />
     <Compile Include="ViewModels\GameStyleViewModel.cs" />

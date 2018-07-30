@@ -122,17 +122,17 @@
                 Grid.Column="1"
                 Text="{Binding Path=License.Email, Mode=OneWay}" />
 
-            <Label Grid.Row="3" Content="Issued (Date &amp; Time):" />
+            <Label Grid.Row="3" Content="Issue Date:" />
             <TextBlock
                 Grid.Row="3"
                 Grid.Column="1"
-                Text="{Binding Path=License.IssueDate, Mode=OneWay}" />
+                Text="{Binding Path=License.IssueDate, Mode=OneWay, StringFormat='{}{0:dd/MM/yyyy}'}" />
 
-            <Label Grid.Row="4" Content="Expiry (Date &amp; Time):" />
+            <Label Grid.Row="4" Content="Expiry Date:" />
             <TextBlock
                 Grid.Row="4"
                 Grid.Column="1"
-                Text="{Binding Path=License.ExpirationDate, Mode=OneWay}" />
+                Text="{Binding Path=License.ExpirationDate, Mode=OneWay, StringFormat='{}{0:dd/MM/yyyy}'}" />
 
             <Button
                 Grid.Row="5"

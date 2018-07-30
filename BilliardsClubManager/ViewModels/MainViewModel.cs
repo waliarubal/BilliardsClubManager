@@ -52,7 +52,7 @@ namespace BilliardsClubManager.ViewModels
             get
             {
                 if (_initialize == null)
-                    _initialize = new RelayCommand(Initialize);
+                    _initialize = new RelayCommand<object, bool>(Initialize, InitializeCallback) { IsCallbackSynchronous = true };
 
                 return _initialize;
             }
@@ -82,12 +82,22 @@ namespace BilliardsClubManager.ViewModels
             RaisePropertyChanged(e.PropertyName);
         }
 
-        void Initialize()
+        bool Initialize(object argument)
         {
             Shared.Instance.PropertyChanged += OnSharedPropertyChanged;
 
             Shared.Instance.LoadSettings();
             Shared.Instance.LoadLicense(Shared.Instance.LicenseFile);
+
+            return IsLicensed;
+        }
+
+        void InitializeCallback(bool isLicensed)
+        {
+            if (isLicensed)
+                CreateChildViewCommand.Execute(new DashboardViewModel());
+            else
+                CreateChildViewCommand.Execute(new SettingViewModel());
         }
 
         void Uninitialize()
