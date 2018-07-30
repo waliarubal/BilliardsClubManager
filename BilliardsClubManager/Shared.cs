@@ -67,7 +67,11 @@ namespace BilliardsClubManager
         public StrongLicense License
         {
             get => _license;
-            set => Set(nameof(License), ref _license, value);
+            private set
+            {
+                if(Set(nameof(License), ref _license, value))
+                    RaisePropertyChanged(nameof(IsLicensed));
+            }
         }
 
         public bool IsLicensed
@@ -93,6 +97,17 @@ namespace BilliardsClubManager
             connection.Open();
 
             return connection;
+        }
+
+        public string LoadLicense(string fileName)
+        {
+            License = StrongLicense.Load(fileName, out string errorMessage);
+
+            // copy license
+            if (string.IsNullOrEmpty(errorMessage) && !LicenseFile.Equals(fileName))
+                File.Copy(fileName, LicenseFile, true);
+
+            return errorMessage;
         }
 
         public void LoadSettings()

@@ -68,6 +68,7 @@ namespace BilliardsClubManager.ViewModels
         void Initialize()
         {
             Shared.Instance.LoadSettings();
+            Shared.Instance.LoadLicense(Shared.Instance.LicenseFile);
         }
 
         void CreateChildView(ViewModelBase viewModel)

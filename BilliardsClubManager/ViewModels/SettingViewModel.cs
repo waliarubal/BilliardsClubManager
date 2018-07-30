@@ -1,4 +1,5 @@
 ﻿using BilliardsClubManager.Models;
+using Microsoft.Win32;
 using NullVoidCreations.WpfHelpers.Base;
 using NullVoidCreations.WpfHelpers.Commands;
 using System.Collections.Generic;
@@ -11,7 +12,8 @@ namespace BilliardsClubManager.ViewModels
     {
         IEnumerable<PlayerModel> _players;
         IEnumerable<GameStyleModel> _styles;
-        ICommand _initialize, _save;
+        ICommand _initialize, _save, _loadLicense;
+        string _errorMessage;
 
         public SettingViewModel()
         {
@@ -24,6 +26,12 @@ namespace BilliardsClubManager.ViewModels
         }
 
         #region properties
+
+        public string ErrorMessage
+        {
+            get => _errorMessage;
+            private set => Set(nameof(ErrorMessage), ref _errorMessage, value);
+        }
 
         public IEnumerable<PlayerModel> Players
         {
@@ -96,7 +104,30 @@ namespace BilliardsClubManager.ViewModels
             }
         }
 
+        public ICommand LoadLicenseCommand
+        {
+            get
+            {
+                if (_loadLicense == null)
+                    _loadLicense = new RelayCommand(LoadLicense) { IsSynchronous = true };
+
+                return _save;
+            }
+        }
+
         #endregion
+
+        void LoadLicense()
+        {
+            var fileBrowser = new OpenFileDialog();
+            fileBrowser.CheckFileExists = true;
+            fileBrowser.Filter = "XML Files|*.xml|All Files|*.*";
+            fileBrowser.Multiselect = false;
+            if (fileBrowser.ShowDialog() != true)
+                return;
+
+            ErrorMessage = Shared.Instance.LoadLicense(fileBrowser.FileName);
+        }
 
         void OnSharedPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
