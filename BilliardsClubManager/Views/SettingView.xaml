@@ -20,74 +20,132 @@
         </i:EventTrigger>
     </i:Interaction.Triggers>
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <Label Grid.Row="0" Content="Settings File:" />
-        <TextBlock
-            Grid.Row="0"
-            Grid.Column="1"
-            Text="{Binding Path=SettingsFile, Mode=OneTime}"
-            TextWrapping="WrapWithOverflow" />
+        <Grid IsEnabled="{Binding Path=IsLicensed, Mode=OneWay}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
 
-        <Label Grid.Row="1" Content="Database File:" />
-        <TextBlock
-            Grid.Row="1"
-            Grid.Column="1"
-            Text="{Binding Path=DatabaseFile, Mode=OneTime}"
-            TextWrapping="WrapWithOverflow" />
+            <Label Grid.Row="0" Content="Settings File:" />
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="1"
+                Text="{Binding Path=SettingsFile, Mode=OneTime}"
+                TextWrapping="WrapWithOverflow" />
 
-        <Label Grid.Row="2" Content="Default First Player:" />
-        <ComboBox
-            Grid.Row="2"
-            Grid.Column="1"
-            ItemsSource="{Binding Path=Players, Mode=OneWay}"
-            SelectedValue="{Binding Path=DefaultFirstPlayer, Mode=TwoWay}" />
+            <Label Grid.Row="1" Content="Database File:" />
+            <TextBlock
+                Grid.Row="1"
+                Grid.Column="1"
+                Text="{Binding Path=DatabaseFile, Mode=OneTime}"
+                TextWrapping="WrapWithOverflow" />
 
-        <Label Grid.Row="3" Content="Default Second Player:" />
-        <ComboBox
-            Grid.Row="3"
-            Grid.Column="1"
-            ItemsSource="{Binding Path=Players, Mode=OneWay}"
-            SelectedValue="{Binding Path=DefaultSecondPlayer, Mode=TwoWay}" />
+            <Label Grid.Row="2" Content="Default First Player:" />
+            <ComboBox
+                Grid.Row="2"
+                Grid.Column="1"
+                ItemsSource="{Binding Path=Players, Mode=OneWay}"
+                SelectedValue="{Binding Path=DefaultFirstPlayer, Mode=TwoWay}" />
 
-        <Label Grid.Row="4" Content="Default Game Style:" />
-        <ComboBox
-            Grid.Row="4"
-            Grid.Column="1"
-            ItemsSource="{Binding Path=GameStyles, Mode=OneWay}"
-            SelectedValue="{Binding Path=DefaultGameStyle, Mode=TwoWay}" />
+            <Label Grid.Row="3" Content="Default Second Player:" />
+            <ComboBox
+                Grid.Row="3"
+                Grid.Column="1"
+                ItemsSource="{Binding Path=Players, Mode=OneWay}"
+                SelectedValue="{Binding Path=DefaultSecondPlayer, Mode=TwoWay}" />
 
-        <Button
-            Grid.Row="5"
-            Grid.ColumnSpan="2"
-            HorizontalAlignment="Right"
-            Command="{Binding Path=SaveCommand, Mode=OneTime}">
-            <StackPanel Orientation="Horizontal">
-                <Image Source="/Assets/Images/save-32.png" />
-                <TextBlock Text="Save" />
-            </StackPanel>
-        </Button>
+            <Label Grid.Row="4" Content="Default Game Style:" />
+            <ComboBox
+                Grid.Row="4"
+                Grid.Column="1"
+                ItemsSource="{Binding Path=GameStyles, Mode=OneWay}"
+                SelectedValue="{Binding Path=DefaultGameStyle, Mode=TwoWay}" />
 
-        <Separator Grid.Row="6" Grid.ColumnSpan="2" />
+            <Button
+                Grid.Row="5"
+                Grid.ColumnSpan="2"
+                HorizontalAlignment="Right"
+                Command="{Binding Path=SaveCommand, Mode=OneTime}">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="/Assets/Images/save-32.png" />
+                    <TextBlock Text="Save" />
+                </StackPanel>
+            </Button>
+        </Grid>
 
-        <Label Grid.Row="7" Content="License File:" />
-        <TextBlock
-            Grid.Row="7"
-            Grid.Column="1"
-            Text="{Binding Path=LicenseFile, Mode=OneTime}"
-            TextWrapping="WrapWithOverflow" />
+        <Separator Grid.Row="1" />
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Content="License File:" />
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="1"
+                Text="{Binding Path=LicenseFile, Mode=OneTime}"
+                TextWrapping="WrapWithOverflow"
+                Visibility="{Binding Path=IsLicensed, Mode=OneWay, Converter={StaticResource ResourceKey=BooleanToVisibilityConverter}}" />
+
+            <Label Grid.Row="1" Content="Serial Key:" />
+            <TextBlock
+                Grid.Row="1"
+                Grid.Column="1"
+                Text="{Binding Path=License.SerialKey, Mode=OneWay}" />
+
+            <Label Grid.Row="2" Content="E-mail Address:" />
+            <TextBlock
+                Grid.Row="2"
+                Grid.Column="1"
+                Text="{Binding Path=License.Email, Mode=OneWay}" />
+
+            <Label Grid.Row="3" Content="Issued (Date &amp; Time):" />
+            <TextBlock
+                Grid.Row="3"
+                Grid.Column="1"
+                Text="{Binding Path=License.IssueDate, Mode=OneWay}" />
+
+            <Label Grid.Row="4" Content="Expiry (Date &amp; Time):" />
+            <TextBlock
+                Grid.Row="4"
+                Grid.Column="1"
+                Text="{Binding Path=License.ExpirationDate, Mode=OneWay}" />
+
+            <Button
+                Grid.Row="5"
+                Grid.ColumnSpan="2"
+                HorizontalAlignment="Right"
+                Command="{Binding Path=LoadLicenseCommand, Mode=OneTime}">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="/Assets/Images/certificate-32.png" />
+                    <TextBlock Text="Load from File" />
+                </StackPanel>
+            </Button>
+        </Grid>
+
+        <Separator Grid.Row="3" Grid.ColumnSpan="2" />
     </Grid>
 </UserControl>

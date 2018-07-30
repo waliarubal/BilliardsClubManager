@@ -2,6 +2,7 @@
 using Devart.Data.SQLite;
 using NullVoidCreations.WpfHelpers;
 using NullVoidCreations.WpfHelpers.Base;
+using System;
 using System.Data;
 using System.IO;
 using System.Windows;
@@ -22,7 +23,7 @@ namespace BilliardsClubManager
             StartupDirectory = Application.Current.GetStartupDirectory();
             SettingsFile = Path.Combine(StartupDirectory, "Assets", "Settings.aes");
             DatabaseFile = Path.Combine(StartupDirectory, "Assets", "Database.sqlite3");
-            LicenseFile = Path.Combine(StartupDirectory, "Assets", "License.xml");
+            LicenseFile = Path.Combine(StartupDirectory, "Assets", "License.aes");
         }
 
         #region properties
@@ -101,7 +102,15 @@ namespace BilliardsClubManager
 
         public string LoadLicense(string fileName)
         {
-            License = StrongLicense.Load(fileName, out string errorMessage);
+            string errorMessage;
+            try
+            {
+                License = StrongLicense.Load(fileName, out errorMessage);
+            }
+            catch(Exception ex)
+            {
+                errorMessage = string.Format("Failed to load license. {0}", ex.Message);
+            }
 
             // copy license
             if (string.IsNullOrEmpty(errorMessage) && !LicenseFile.Equals(fileName))

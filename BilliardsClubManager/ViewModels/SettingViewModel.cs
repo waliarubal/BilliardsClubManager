@@ -74,6 +74,11 @@ namespace BilliardsClubManager.ViewModels
             get => Shared.Instance.LicenseFile;
         }
 
+        public bool IsLicensed
+        {
+            get => Shared.Instance.IsLicensed;
+        }
+
         #endregion
 
         #region commands
@@ -118,7 +123,7 @@ namespace BilliardsClubManager.ViewModels
                 if (_loadLicense == null)
                     _loadLicense = new RelayCommand(LoadLicense) { IsSynchronous = true };
 
-                return _save;
+                return _loadLicense;
             }
         }
 
@@ -128,7 +133,7 @@ namespace BilliardsClubManager.ViewModels
         {
             var fileBrowser = new OpenFileDialog();
             fileBrowser.CheckFileExists = true;
-            fileBrowser.Filter = "XML Files|*.xml|All Files|*.*";
+            fileBrowser.Filter = "Advanced Encryption Standard Files|*.aes|All Files|*.*";
             fileBrowser.Multiselect = false;
             if (fileBrowser.ShowDialog() != true)
                 return;
