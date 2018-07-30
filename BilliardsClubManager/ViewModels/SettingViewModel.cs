@@ -1,5 +1,6 @@
 ﻿using BilliardsClubManager.Models;
 using Microsoft.Win32;
+using NullVoidCreations.WpfHelpers;
 using NullVoidCreations.WpfHelpers.Base;
 using NullVoidCreations.WpfHelpers.Commands;
 using System.Collections.Generic;
@@ -61,6 +62,11 @@ namespace BilliardsClubManager.ViewModels
         {
             get => Shared.Instance.DefaultGameStyle;
             set => Shared.Instance.DefaultGameStyle = value;
+        }
+
+        public StrongLicense License
+        {
+            get => Shared.Instance.License;
         }
 
         public string SettingsFile
