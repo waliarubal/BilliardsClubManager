@@ -1,6 +1,7 @@
 ﻿using BilliardsClubManager.Base;
 using NullVoidCreations.WpfHelpers.Base;
 using NullVoidCreations.WpfHelpers.Commands;
+using System.ComponentModel;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -8,7 +9,7 @@ namespace BilliardsClubManager.ViewModels
 {
     class MainViewModel: ViewModelBase
     {
-        ICommand _createEditorView, _createChildView, _initialize;
+        ICommand _createEditorView, _createChildView, _initialize, _uninitialize;
 
         Control _childView;
 
@@ -57,6 +58,17 @@ namespace BilliardsClubManager.ViewModels
             }
         }
 
+        public ICommand UninitializeCommand
+        {
+            get
+            {
+                if (_uninitialize == null)
+                    _uninitialize = new RelayCommand(Uninitialize);
+
+                return _uninitialize;
+            }
+        }
+
         public bool IsLicensed
         {
             get { return Shared.Instance.IsLicensed; }
@@ -65,10 +77,22 @@ namespace BilliardsClubManager.ViewModels
 
         #endregion
 
+        void OnSharedPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            RaisePropertyChanged(e.PropertyName);
+        }
+
         void Initialize()
         {
+            Shared.Instance.PropertyChanged += OnSharedPropertyChanged;
+
             Shared.Instance.LoadSettings();
             Shared.Instance.LoadLicense(Shared.Instance.LicenseFile);
+        }
+
+        void Uninitialize()
+        {
+            Shared.Instance.PropertyChanged -= OnSharedPropertyChanged;
         }
 
         void CreateChildView(ViewModelBase viewModel)

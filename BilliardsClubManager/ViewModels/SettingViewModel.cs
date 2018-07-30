@@ -13,18 +13,8 @@ namespace BilliardsClubManager.ViewModels
     {
         IEnumerable<PlayerModel> _players;
         IEnumerable<GameStyleModel> _styles;
-        ICommand _initialize, _save, _loadLicense;
+        ICommand _initialize, _uninitialize, _save, _loadLicense;
         string _errorMessage;
-
-        public SettingViewModel()
-        {
-            Shared.Instance.PropertyChanged += OnSharedPropertyChanged;
-        }
-
-        ~SettingViewModel()
-        {
-            Shared.Instance.PropertyChanged -= OnSharedPropertyChanged;
-        }
 
         #region properties
 
@@ -99,6 +89,17 @@ namespace BilliardsClubManager.ViewModels
             }
         }
 
+        public ICommand UninitializeCommand
+        {
+            get
+            {
+                if (_uninitialize == null)
+                    _uninitialize = new RelayCommand(Uninitialize);
+
+                return _uninitialize;
+            }
+        }
+
         public ICommand SaveCommand
         {
             get
@@ -142,8 +143,15 @@ namespace BilliardsClubManager.ViewModels
 
         void Initialize()
         {
+            Shared.Instance.PropertyChanged += OnSharedPropertyChanged;
+
             Players = new PlayerModel().Get(string.Empty) as IEnumerable<PlayerModel>;
             GameStyles = new GameStyleModel().Get(string.Empty) as IEnumerable<GameStyleModel>;
+        }
+
+        void Uninitialize()
+        {
+            Shared.Instance.PropertyChanged -= OnSharedPropertyChanged;
         }
 
         void Save()
