@@ -65,6 +65,11 @@ namespace BilliardsClubManager.ViewModels
             get => Shared.Instance.DatabaseFile;
         }
 
+        public string LicenseFile
+        {
+            get => Shared.Instance.LicenseFile;
+        }
+
         #endregion
 
         #region commands

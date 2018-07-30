@@ -28,6 +28,9 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Label Grid.Row="0" Content="Settings File:" />
         <TextBlock
@@ -74,5 +77,14 @@
                 <TextBlock Text="Save" />
             </StackPanel>
         </Button>
+
+        <Separator Grid.Row="6" Grid.ColumnSpan="2" />
+
+        <Label Grid.Row="7" Content="License File:" />
+        <TextBlock
+            Grid.Row="7"
+            Grid.Column="1"
+            Text="{Binding Path=LicenseFile, Mode=OneTime}"
+            TextWrapping="WrapWithOverflow" />
     </Grid>
 </UserControl>
