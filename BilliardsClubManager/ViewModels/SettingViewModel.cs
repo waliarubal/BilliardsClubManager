@@ -139,6 +139,11 @@ namespace BilliardsClubManager.ViewModels
                 return;
 
             ErrorMessage = Shared.Instance.LoadLicense(fileBrowser.FileName);
+            if (IsLicensed)
+            {
+                Shared.Instance.LoadSettings();
+                ErrorMessage =  Shared.Instance.Switch.Open();
+            }
         }
 
         void OnSharedPropertyChanged(object sender, PropertyChangedEventArgs e)

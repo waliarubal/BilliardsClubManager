@@ -17,6 +17,7 @@ namespace BilliardsClubManager
         PlayerModel _defaultFirstPlayer, _defaultSecondPlayer;
         GameStyleModel _defaultGameStyle;
         StrongLicense _license;
+        Switch _switch;
 
         private Shared()
         {
@@ -78,6 +79,17 @@ namespace BilliardsClubManager
         public bool IsLicensed
         {
             get { return License != null && License.IsActivated; }
+        }
+
+        public Switch Switch
+        {
+            get
+            {
+                if (_switch == null)
+                    _switch = new Switch();
+
+                return _switch;
+            }
         }
 
         #endregion

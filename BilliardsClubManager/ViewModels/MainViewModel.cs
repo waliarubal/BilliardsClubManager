@@ -86,8 +86,12 @@ namespace BilliardsClubManager.ViewModels
         {
             Shared.Instance.PropertyChanged += OnSharedPropertyChanged;
 
-            Shared.Instance.LoadSettings();
             Shared.Instance.LoadLicense(Shared.Instance.LicenseFile);
+            if (IsLicensed)
+            {
+                Shared.Instance.LoadSettings();
+                Shared.Instance.Switch.Open();
+            }
 
             return IsLicensed;
         }
@@ -103,6 +107,12 @@ namespace BilliardsClubManager.ViewModels
         void Uninitialize()
         {
             Shared.Instance.PropertyChanged -= OnSharedPropertyChanged;
+
+            if (IsLicensed)
+            {
+                Shared.Instance.Switch.Toggle(false);
+                Shared.Instance.Switch.Close();
+            }
         }
 
         void CreateChildView(ViewModelBase viewModel)

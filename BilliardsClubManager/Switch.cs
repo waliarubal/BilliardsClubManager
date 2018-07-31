@@ -4,8 +4,6 @@ namespace BilliardsClubManager
 {
     class Switch
     {
-        static Switch _instance;
-        static readonly object _syncLock;
         readonly FTDI _device;
         byte[] _sentBytes;
         uint _receivedBytes;
@@ -13,12 +11,7 @@ namespace BilliardsClubManager
 
         #region constructor
 
-        static Switch()
-        {
-            _syncLock = new object();
-        }
-
-        private Switch()
+        public Switch()
         {
             _device = new FTDI();
             _sentBytes = new byte[2];
@@ -35,25 +28,37 @@ namespace BilliardsClubManager
 
         #region properties
 
-        public static Switch Instance
+        public bool IsOpen
         {
-            get
-            {
-                lock (_syncLock)
-                {
-                    if (_instance == null)
-                        _instance = new Switch();
-
-                    return _instance;
-                }
-            }
+            get;
+            private set;
         }
 
         #endregion
 
+        /// <summary>
+        /// Toggles all the switches,
+        /// </summary>
+        /// <param name="isOn"></param>
+        /// <returns></returns>
+        public bool Toggle(bool isOn)
+        {
+            var result = true;
+            for (var index = 0; index < _data.Length; index++)
+                result &= Toggle(index, isOn);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Toggle switch with a given index.
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name="isOn"></param>
+        /// <returns></returns>
         public bool Toggle(int index, bool isOn)
         {
-            if (index < 0 || index > 3)
+            if (!IsOpen || index < 0 || index > 3)
                 return false;
 
             if (isOn)
@@ -66,6 +71,11 @@ namespace BilliardsClubManager
 
         public string Open()
         {
+            if (IsOpen)
+                return "Connection to the device is already open.";
+
+            IsOpen = false;
+
             var status = _device.OpenByIndex(0);
             if (status != FTDI.FT_STATUS.FT_OK)
                 return "Failed to open device.";
@@ -79,14 +89,19 @@ namespace BilliardsClubManager
                 return "Failed to set mask to 255 and bitmode to 4.";
 
             _sentBytes[0] = 0;
+            IsOpen = true;
             return null;
         }
 
         public string Close()
         {
+            if (!IsOpen)
+                return "Connection to the device is not open.";
+
             if (_device.Close() != FTDI.FT_STATUS.FT_OK)
                 return "Faild to close device.";
 
+            IsOpen = false;
             return null;
         }
     }
