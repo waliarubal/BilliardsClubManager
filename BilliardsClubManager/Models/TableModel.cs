@@ -101,6 +101,17 @@ namespace BilliardsClubManager.Models
 
             using (var connection = Shared.Instance.GetConnection())
             {
+                var sqlBuilder = new StringBuilder();
+                sqlBuilder.AppendLine("SELECT");
+                sqlBuilder.AppendLine(" COUNT(Id)");
+                sqlBuilder.AppendLine("FROM [Tables]");
+                sqlBuilder.AppendLine("WHERE ");
+                sqlBuilder.AppendLine(" Id != {0} AND", Id);
+                sqlBuilder.AppendLine(" Switch = {1}", Switch);
+
+                if (connection.ExecuteScalar<int>(sqlBuilder.ToString()) != 0)
+                    return string.Format("Switch {0} is already assigned to another table.", Switch);
+
                 bool isSaved;
                 if (Id < 0)
                     isSaved = connection.Insert(this) > -1;
