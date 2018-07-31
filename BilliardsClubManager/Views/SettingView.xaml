@@ -107,8 +107,7 @@
                 Grid.Row="0"
                 Grid.Column="1"
                 Text="{Binding Path=LicenseFile, Mode=OneTime}"
-                TextWrapping="WrapWithOverflow"
-                Visibility="{Binding Path=IsLicensed, Mode=OneWay, Converter={StaticResource ResourceKey=BooleanToVisibilityConverter}}" />
+                TextWrapping="WrapWithOverflow" />
 
             <Label Grid.Row="1" Content="Serial Key:" />
             <TextBlock
