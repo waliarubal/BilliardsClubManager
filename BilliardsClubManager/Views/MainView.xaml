@@ -129,10 +129,7 @@
                     </StackPanel>
                 </Button>
                 <Separator />
-                <Button
-                    Command="{Binding Path=CreateChildViewCommand, Mode=OneTime}"
-                    IsEnabled="{Binding Path=IsLicensed, Mode=OneWay}"
-                    Style="{StaticResource ResourceKey=NavigationButtonStyle}">
+                <Button IsEnabled="{Binding Path=IsLicensed, Mode=OneWay}" Style="{StaticResource ResourceKey=NavigationButtonStyle}">
                     <StackPanel>
                         <Image Source="/Assets/Images/combo-chart-32.png" />
                         <TextBlock Text="Reports" />

@@ -54,8 +54,11 @@
     <Reference Include="Microsoft.Expression.Interactions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>packages\System.Windows.Interactivity.WPF.2.0.20525\lib\net40\Microsoft.Expression.Interactions.dll</HintPath>
     </Reference>
-    <Reference Include="NullVoidCreations.WpfHelpers, Version=18.7.31.13, Culture=neutral, PublicKeyToken=203b8d613f6ac171, processorArchitecture=MSIL">
-      <HintPath>packages\NullVoidCreations.WpfHelpers.18.7.31.13\lib\net40\NullVoidCreations.WpfHelpers.dll</HintPath>
+    <Reference Include="NullVoidCreations.Licensing, Version=18.8.1.14, Culture=neutral, PublicKeyToken=8cda3fd91b68d3ab, processorArchitecture=MSIL">
+      <HintPath>packages\NullVoidCreations.Licensing.18.8.1.14\lib\net40\NullVoidCreations.Licensing.dll</HintPath>
+    </Reference>
+    <Reference Include="NullVoidCreations.WpfHelpers, Version=18.8.1.13, Culture=neutral, PublicKeyToken=203b8d613f6ac171, processorArchitecture=MSIL">
+      <HintPath>packages\NullVoidCreations.WpfHelpers.18.8.1.13\lib\net40\NullVoidCreations.WpfHelpers.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />

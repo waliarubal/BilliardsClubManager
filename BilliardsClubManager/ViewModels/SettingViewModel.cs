@@ -1,6 +1,6 @@
 ﻿using BilliardsClubManager.Models;
 using Microsoft.Win32;
-using NullVoidCreations.WpfHelpers;
+using NullVoidCreations.Licensing;
 using NullVoidCreations.WpfHelpers.Base;
 using NullVoidCreations.WpfHelpers.Commands;
 using System.Collections.Generic;

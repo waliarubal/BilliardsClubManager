@@ -107,7 +107,7 @@ namespace BilliardsClubManager.Models
                 sqlBuilder.AppendLine("FROM [Tables]");
                 sqlBuilder.AppendLine("WHERE ");
                 sqlBuilder.AppendLine(" Id != {0} AND", Id);
-                sqlBuilder.AppendLine(" Switch = {1}", Switch);
+                sqlBuilder.AppendLine(" Switch = {0}", Switch);
 
                 if (connection.ExecuteScalar<int>(sqlBuilder.ToString()) != 0)
                     return string.Format("Switch {0} is already assigned to another table.", Switch);

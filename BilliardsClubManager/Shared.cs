@@ -1,5 +1,6 @@
 ﻿using BilliardsClubManager.Models;
 using Devart.Data.SQLite;
+using NullVoidCreations.Licensing;
 using NullVoidCreations.WpfHelpers;
 using NullVoidCreations.WpfHelpers.Base;
 using System;
