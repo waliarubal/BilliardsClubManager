@@ -240,4 +240,7 @@
     <Resource Include="Assets\Images\certificate-32.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>xcopy /E /Y /R /S  /I "$(SolutionDir)lib\Driver" "$(TargetDir)\Assets\Driver"</PostBuildEvent>
+  </PropertyGroup>
 </Project>
