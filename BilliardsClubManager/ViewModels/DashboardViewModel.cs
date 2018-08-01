@@ -108,13 +108,11 @@ namespace BilliardsClubManager.ViewModels
         void StartGame(GameModel game)
         {
             game.StartGame();
-            Shared.Instance.Switch.Toggle(game.Table.Switch, true);
         }
 
         void EndGame(GameModel game)
         {
             game.EndGame();
-            Shared.Instance.Switch.Toggle(game.Table.Switch, false);
         }
 
         void SaveGame(GameModel game)
