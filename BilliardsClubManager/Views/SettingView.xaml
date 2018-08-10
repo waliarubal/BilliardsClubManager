@@ -101,6 +101,9 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Label Grid.Row="0" Content="License File:" />
             <TextBlock
@@ -133,7 +136,25 @@
                 Grid.Column="1"
                 Text="{Binding Path=License.ExpirationDate, Mode=OneWay, StringFormat='{}{0:dd/MM/yyyy}'}" />
 
-            <Grid Grid.Row="5" Grid.ColumnSpan="2">
+            <Label Grid.Row="5" Content="Business Name:" />
+            <TextBlock
+                Grid.Row="5"
+                Grid.Column="1"
+                Text="{Binding Path=License.BusinessName, Mode=OneWay, StringFormat='{}{0:dd/MM/yyyy}'}" />
+
+            <Label Grid.Row="6" Content="Contact Person:" />
+            <TextBlock
+                Grid.Row="6"
+                Grid.Column="1"
+                Text="{Binding Path=License.ContactPerson, Mode=OneWay, StringFormat='{}{0:dd/MM/yyyy}'}" />
+
+            <Label Grid.Row="7" Content="Contact Number:" />
+            <TextBlock
+                Grid.Row="7"
+                Grid.Column="1"
+                Text="{Binding Path=License.ContactNumber, Mode=OneWay, StringFormat='{}{0:dd/MM/yyyy}'}" />
+
+            <Grid Grid.Row="8" Grid.ColumnSpan="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />

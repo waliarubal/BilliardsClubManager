@@ -6,7 +6,7 @@
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="clr-namespace:BilliardsClubManager.ViewModels"
-    Title="Billiards Club Manager (HM Billiards - Karni Singh - +91 7665595000)"
+    Title="Billiards Club Manager"
     Width="1024"
     Height="768"
     WindowStartupLocation="CenterScreen"
@@ -27,6 +27,21 @@
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
+        <TextBlock
+            Margin="4"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Bottom"
+            Panel.ZIndex="1">
+            <Run FontWeight="Bold" Text="{Binding Path=License.BusinessName, Mode=OneWay, FallbackValue='NullVoid Creations'}" />
+            <Run Text=" " />
+            <Run Text="{Binding Path=License.ContactPerson, Mode=OneWay, FallbackValue='Rubal Walia'}" />
+            <Run Text=" (" />
+            <Run Text="{Binding Path=License.ContactNumber, Mode=OneWay, FallbackValue='09928893416'}" />
+            <Run Text=")" />
+            <TextBlock.LayoutTransform>
+                <RotateTransform Angle="-90" />
+            </TextBlock.LayoutTransform>
+        </TextBlock>
         <ToolBarTray Orientation="Vertical">
             <ToolBar ToolBarTray.IsLocked="True">
                 <ToolBar.Resources>

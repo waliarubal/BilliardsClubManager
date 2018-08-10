@@ -1,4 +1,5 @@
 ﻿using BilliardsClubManager.Base;
+using NullVoidCreations.Licensing;
 using NullVoidCreations.WpfHelpers.Base;
 using NullVoidCreations.WpfHelpers.Commands;
 using System.ComponentModel;
@@ -19,6 +20,16 @@ namespace BilliardsClubManager.ViewModels
         {
             get => _childView;
             private set => Set(nameof(ChildView), ref _childView, value);
+        }
+
+        public bool IsLicensed
+        {
+            get { return Shared.Instance.IsLicensed; }
+        }
+
+        public StrongLicense License
+        {
+            get { return Shared.Instance.License; }
         }
 
         #endregion
@@ -68,12 +79,6 @@ namespace BilliardsClubManager.ViewModels
                 return _uninitialize;
             }
         }
-
-        public bool IsLicensed
-        {
-            get { return Shared.Instance.IsLicensed; }
-        }
-
 
         #endregion
 
