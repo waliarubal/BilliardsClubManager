@@ -94,6 +94,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Base\IRecordEditor.cs" />
+    <Compile Include="Base\ReportBase.cs" />
     <Compile Include="Models\CreditNoteModel.cs" />
     <Compile Include="Models\GameModel.cs" />
     <Compile Include="Base\IRecord.cs" />
