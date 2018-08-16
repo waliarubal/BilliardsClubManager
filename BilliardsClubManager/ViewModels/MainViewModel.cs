@@ -144,8 +144,8 @@ namespace BilliardsClubManager.ViewModels
 
         void ShowReport(ReportBase report)
         {
-            var reportViewModel = new ReportViewModel(report);
-            ChildView = reportViewModel.GetView();
+            var viewModel = new ReportViewModel(report);
+            ChildView = viewModel.GetView();
         }
     }
 }

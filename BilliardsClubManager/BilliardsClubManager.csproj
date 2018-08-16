@@ -42,11 +42,11 @@
     <Reference Include="Dapper.Contrib, Version=1.50.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\Dapper.Contrib.1.50.0\lib\net40\Dapper.Contrib.dll</HintPath>
     </Reference>
-    <Reference Include="Devart.Data, Version=5.0.1982.0, Culture=neutral, PublicKeyToken=09af7300eec23701, processorArchitecture=MSIL">
-      <HintPath>packages\dotConnect.Express.for.SQLite.5.11.1190\lib\Devart.Data.dll</HintPath>
+    <Reference Include="Devart.Data, Version=5.0.1994.0, Culture=neutral, PublicKeyToken=09af7300eec23701, processorArchitecture=MSIL">
+      <HintPath>..\packages\dotConnect.Express.for.SQLite.5.11.1202\lib\Devart.Data.dll</HintPath>
     </Reference>
-    <Reference Include="Devart.Data.SQLite, Version=5.11.1190.0, Culture=neutral, PublicKeyToken=09af7300eec23701, processorArchitecture=MSIL">
-      <HintPath>packages\dotConnect.Express.for.SQLite.5.11.1190\lib\Devart.Data.SQLite.dll</HintPath>
+    <Reference Include="Devart.Data.SQLite, Version=5.11.1202.0, Culture=neutral, PublicKeyToken=09af7300eec23701, processorArchitecture=MSIL">
+      <HintPath>..\packages\dotConnect.Express.for.SQLite.5.11.1202\lib\Devart.Data.SQLite.dll</HintPath>
     </Reference>
     <Reference Include="FTD2XX_NET">
       <HintPath>..\lib\FTD2XX_NET.dll</HintPath>
@@ -101,6 +101,7 @@
     <Compile Include="Models\GameStyleModel.cs" />
     <Compile Include="Models\PlayerModel.cs" />
     <Compile Include="Models\Reports\IncomeStatementModel.cs" />
+    <Compile Include="Models\Reports\SampleReportModel.cs" />
     <Compile Include="Models\TableModel.cs" />
     <Compile Include="Shared.cs" />
     <Compile Include="Switch.cs" />

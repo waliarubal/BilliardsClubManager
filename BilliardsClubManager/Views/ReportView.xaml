@@ -17,12 +17,26 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <DataGrid
-            HeadersVisibility="None"
+            AutoGenerateColumns="False"
+            HeadersVisibility="Row"
             IsReadOnly="False"
-            ItemsSource="{Binding Path=Parameters, Mode=OneTime}">
+            ItemsSource="{Binding Path=Parameters, Mode=OneTime}"
+            SelectionUnit="Cell">
             <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding Path=First, Mode=OneTime}" Header="Parameter Name" />
-                <DataGridTextColumn Binding="{Binding Path=Second, Mode=TwoWay}" Header="Parameter Value" />
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Label Content="{Binding Path=First, Mode=OneTime}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBox Text="{Binding Path=Second, Mode=TwoWay}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

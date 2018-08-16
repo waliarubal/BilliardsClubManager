@@ -1,4 +1,5 @@
 ﻿using BilliardsClubManager.Base;
+using BilliardsClubManager.Models.Reports;
 using NullVoidCreations.WpfHelpers.Base;
 using NullVoidCreations.WpfHelpers.DataStructures;
 using System;
@@ -12,17 +13,17 @@ namespace BilliardsClubManager.ViewModels
 
         #region constructor/destructor
 
-        public ReportViewModel()
-        {
-
-        }
-
         public ReportViewModel(ReportBase report)
         {
             if (report == null)
                 throw new ArgumentNullException("report");
 
             _report = report;
+        }
+
+        public ReportViewModel()
+        {
+            _report = new SampleReportModel();
         }
 
         #endregion
