@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:r="clr-namespace:BilliardsClubManager.Models.Reports"
     xmlns:vm="clr-namespace:BilliardsClubManager.ViewModels"
     Title="Billiards Club Manager"
     Width="1024"
@@ -144,10 +145,16 @@
                     </StackPanel>
                 </Button>
                 <Separator />
-                <Button IsEnabled="{Binding Path=IsLicensed, Mode=OneWay}" Style="{StaticResource ResourceKey=NavigationButtonStyle}">
+                <Button
+                    Command="{Binding Path=ShowReportCommand, Mode=OneTime}"
+                    IsEnabled="{Binding Path=IsLicensed, Mode=OneWay}"
+                    Style="{StaticResource ResourceKey=NavigationButtonStyle}">
+                    <Button.CommandParameter>
+                        <r:IncomeStatementModel />
+                    </Button.CommandParameter>
                     <StackPanel>
                         <Image Source="/Assets/Images/combo-chart-32.png" />
-                        <TextBlock Text="Reports" />
+                        <TextBlock Text="Income Statement" />
                     </StackPanel>
                 </Button>
             </ToolBar>

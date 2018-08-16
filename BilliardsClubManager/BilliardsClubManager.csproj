@@ -100,6 +100,7 @@
     <Compile Include="Base\IRecord.cs" />
     <Compile Include="Models\GameStyleModel.cs" />
     <Compile Include="Models\PlayerModel.cs" />
+    <Compile Include="Models\Reports\IncomeStatementModel.cs" />
     <Compile Include="Models\TableModel.cs" />
     <Compile Include="Shared.cs" />
     <Compile Include="Switch.cs" />
@@ -110,6 +111,7 @@
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\PlayerViewModel.cs" />
     <Compile Include="ViewModels\RecordManagerViewModel.cs" />
+    <Compile Include="ViewModels\ReportViewModel.cs" />
     <Compile Include="ViewModels\SettingViewModel.cs" />
     <Compile Include="ViewModels\TableViewModel.cs" />
     <Compile Include="Views\CreditNoteView.xaml.cs">
@@ -132,6 +134,9 @@
     </Compile>
     <Compile Include="Views\RecordManagerView.xaml.cs">
       <DependentUpon>RecordManagerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ReportView.xaml.cs">
+      <DependentUpon>ReportView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SettingView.xaml.cs">
       <DependentUpon>SettingView.xaml</DependentUpon>
@@ -203,6 +208,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\RecordManagerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ReportView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

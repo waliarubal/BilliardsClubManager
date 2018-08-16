@@ -10,7 +10,7 @@ namespace BilliardsClubManager.ViewModels
 {
     class MainViewModel: ViewModelBase
     {
-        ICommand _createEditorView, _createChildView, _initialize, _uninitialize;
+        ICommand _createEditorView, _createChildView, _initialize, _uninitialize, _showReport;
 
         Control _childView;
 
@@ -55,6 +55,17 @@ namespace BilliardsClubManager.ViewModels
                     _createChildView = new RelayCommand<ViewModelBase>(CreateChildView) { IsSynchronous = true };
 
                 return _createChildView;
+            }
+        }
+
+        public ICommand ShowReportCommand
+        {
+            get
+            {
+                if (_showReport == null)
+                    _showReport = new RelayCommand<ReportBase>(ShowReport) { IsSynchronous = true };
+
+                return _showReport;
             }
         }
 
@@ -129,6 +140,12 @@ namespace BilliardsClubManager.ViewModels
         {
             var viewModel = new RecordManagerViewModel(editor);
             ChildView = viewModel.GetView();
+        }
+
+        void ShowReport(ReportBase report)
+        {
+            var reportViewModel = new ReportViewModel(report);
+            ChildView = reportViewModel.GetView();
         }
     }
 }
