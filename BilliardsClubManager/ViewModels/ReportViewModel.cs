@@ -14,7 +14,7 @@ namespace BilliardsClubManager.ViewModels
     {
         readonly ReportBase _report;
         DataTable _result;
-        ICommand _generate;
+        ICommand _generate, _export;
 
         #region constructor/destructor
 
@@ -61,11 +61,27 @@ namespace BilliardsClubManager.ViewModels
             }
         }
 
+        public ICommand ExportCommand
+        {
+            get
+            {
+                if (_export == null)
+                    _export = new RelayCommand(Export);
+
+                return _export;
+            }
+        }
+
         #endregion
 
         void Generate()
         {
             Result = _report.Generate();
+        }
+
+        void Export()
+        {
+
         }
     }
 }

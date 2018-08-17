@@ -61,7 +61,29 @@
             </DataGrid.Columns>
         </DataGrid>
 
-        <DataGrid Grid.Row="2" ItemsSource="{Binding Path=Result.DefaultView, Mode=OneWay}" />
+        <StackPanel
+            Grid.Row="1"
+            HorizontalAlignment="Right"
+            Orientation="Horizontal">
+            <StackPanel.Resources>
+                <Style TargetType="StackPanel">
+                    <Setter Property="Orientation" Value="Horizontal" />
+                </Style>
+            </StackPanel.Resources>
+            <Button Command="{Binding Path=GenerateCommand, Mode=OneTime}">
+                <StackPanel>
+                    <Image Source="/Assets/Images/synchronize-32.png" />
+                    <TextBlock Text="Generate" />
+                </StackPanel>
+            </Button>
+            <Button Command="{Binding Path=ExportCommand, Mode=OneTime}">
+                <StackPanel>
+                    <Image Source="/Assets/Images/excel-32.png" />
+                    <TextBlock Text="Export" />
+                </StackPanel>
+            </Button>
+        </StackPanel>
 
+        <DataGrid Grid.Row="2" ItemsSource="{Binding Path=Result.DefaultView, Mode=OneWay}" />
     </Grid>
 </UserControl>
