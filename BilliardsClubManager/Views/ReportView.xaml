@@ -12,21 +12,42 @@
         <vm:ReportViewModel />
     </UserControl.DataContext>
     <Grid>
+        <Grid.Resources>
+            <Style x:Key="CellStyle" TargetType="{x:Type DataGridCell}">
+                <Setter Property="Foreground" Value="Black" />
+                <Style.Triggers>
+                    <Trigger Property="IsSelected" Value="True">
+                        <Setter Property="Background" Value="{x:Null}" />
+                        <Setter Property="BorderBrush" Value="{x:Null}" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+            <Style x:Key="ContainerGridStyle" TargetType="DataGrid">
+                <Setter Property="AutoGenerateColumns" Value="False" />
+                <Setter Property="IsReadOnly" Value="False" />
+                <Setter Property="SelectionUnit" Value="Cell" />
+                <Setter Property="CanUserAddRows" Value="False" />
+                <Setter Property="CanUserDeleteRows" Value="False" />
+                <Setter Property="HeadersVisibility" Value="None" />
+                <Setter Property="BorderThickness" Value="0" />
+                <Setter Property="CellStyle" Value="{StaticResource ResourceKey=CellStyle}" />
+                <Setter Property="GridLinesVisibility" Value="None" />
+            </Style>
+        </Grid.Resources>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <DataGrid
-            AutoGenerateColumns="False"
-            HeadersVisibility="Row"
-            IsReadOnly="False"
-            ItemsSource="{Binding Path=Parameters, Mode=OneTime}"
-            SelectionUnit="Cell">
+
+        <DataGrid ItemsSource="{Binding Path=Parameters, Mode=OneTime}" Style="{StaticResource ResourceKey=ContainerGridStyle}">
             <DataGrid.Columns>
                 <DataGridTemplateColumn>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Label Content="{Binding Path=First, Mode=OneTime}" />
+                            <Label>
+                                <TextBlock Text="{Binding Path=First, Mode=OneTime, StringFormat='{}{0}:'}" />
+                            </Label>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -39,5 +60,8 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
+
+        <DataGrid Grid.Row="2" ItemsSource="{Binding Path=Result.DefaultView, Mode=OneWay}" />
+
     </Grid>
 </UserControl>

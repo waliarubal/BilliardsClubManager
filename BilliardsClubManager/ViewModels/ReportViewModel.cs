@@ -1,15 +1,20 @@
 ﻿using BilliardsClubManager.Base;
 using BilliardsClubManager.Models.Reports;
 using NullVoidCreations.WpfHelpers.Base;
+using NullVoidCreations.WpfHelpers.Commands;
 using NullVoidCreations.WpfHelpers.DataStructures;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Windows.Input;
 
 namespace BilliardsClubManager.ViewModels
 {
     class ReportViewModel: ViewModelBase
     {
         readonly ReportBase _report;
+        DataTable _result;
+        ICommand _generate;
 
         #region constructor/destructor
 
@@ -35,6 +40,32 @@ namespace BilliardsClubManager.ViewModels
             get { return _report.Parameters; }
         }
 
+        public DataTable Result
+        {
+            get { return _result; }
+            private set { Set(nameof(Result), ref _result, value); }
+        }
+
         #endregion
+
+        #region commands
+
+        public ICommand GenerateCommand
+        {
+            get
+            {
+                if (_generate == null)
+                    _generate = new RelayCommand(Generate);
+
+                return _generate;
+            }
+        }
+
+        #endregion
+
+        void Generate()
+        {
+            Result = _report.Generate();
+        }
     }
 }
