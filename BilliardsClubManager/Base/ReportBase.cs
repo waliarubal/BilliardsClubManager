@@ -1,7 +1,9 @@
 ﻿using NullVoidCreations.WpfHelpers.Base;
 using NullVoidCreations.WpfHelpers.DataStructures;
+using OfficeOpenXml;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 
 namespace BilliardsClubManager.Base
 {
@@ -74,5 +76,17 @@ namespace BilliardsClubManager.Base
         }
 
         public abstract DataTable Generate();
+
+        public void ExportToExcel(DataTable data, string fileName)
+        {
+            var fileInfo = new FileInfo(fileName);
+
+            using (var package = new ExcelPackage())
+            using(var worksheet = package.Workbook.Worksheets.Add(Name))
+            {
+                worksheet.Cells.LoadFromDataTable(data, true);
+                package.SaveAs(fileInfo);
+            }
+        }
     }
 }

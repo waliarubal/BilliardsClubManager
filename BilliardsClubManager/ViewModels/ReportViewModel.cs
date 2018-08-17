@@ -1,5 +1,6 @@
 ﻿using BilliardsClubManager.Base;
 using BilliardsClubManager.Models.Reports;
+using Microsoft.Win32;
 using NullVoidCreations.WpfHelpers.Base;
 using NullVoidCreations.WpfHelpers.Commands;
 using NullVoidCreations.WpfHelpers.DataStructures;
@@ -81,7 +82,15 @@ namespace BilliardsClubManager.ViewModels
 
         void Export()
         {
+            if (Result == null)
+                return;
 
+            var file = new SaveFileDialog();
+            file.Title = "Export as Spreadsheet";
+            file.DefaultExt = "xlsx";
+            file.Filter = "Excel Spreadsheet|*.xlsx";
+            if (file.ShowDialog() == true)
+                _report.ExportToExcel(Result, file.FileName);
         }
     }
 }
