@@ -60,8 +60,8 @@
     <Reference Include="NullVoidCreations.Licensing, Version=18.8.9.21, Culture=neutral, PublicKeyToken=8cda3fd91b68d3ab, processorArchitecture=MSIL">
       <HintPath>..\packages\NullVoidCreations.Licensing.18.8.9.21\lib\net40\NullVoidCreations.Licensing.dll</HintPath>
     </Reference>
-    <Reference Include="NullVoidCreations.WpfHelpers, Version=18.8.1.13, Culture=neutral, PublicKeyToken=203b8d613f6ac171, processorArchitecture=MSIL">
-      <HintPath>packages\NullVoidCreations.WpfHelpers.18.8.1.13\lib\net40\NullVoidCreations.WpfHelpers.dll</HintPath>
+    <Reference Include="NullVoidCreations.WpfHelpers, Version=18.8.23.14, Culture=neutral, PublicKeyToken=203b8d613f6ac171, processorArchitecture=MSIL">
+      <HintPath>..\packages\NullVoidCreations.WpfHelpers.18.8.23.14\lib\net40\NullVoidCreations.WpfHelpers.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />

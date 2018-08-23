@@ -7,6 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:r="clr-namespace:BilliardsClubManager.Models.Reports"
     xmlns:vm="clr-namespace:BilliardsClubManager.ViewModels"
+    x:Name="MainWindow"
     Title="Billiards Club Manager"
     Width="1024"
     Height="768"
@@ -17,7 +18,7 @@
     </Window.DataContext>
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
-            <i:InvokeCommandAction Command="{Binding Path=InitializeCommand, Mode=OneTime}" />
+            <i:InvokeCommandAction Command="{Binding Path=InitializeCommand, Mode=OneTime}" CommandParameter="{Binding ElementName=MainWindow, Mode=OneWay}" />
         </i:EventTrigger>
         <i:EventTrigger EventName="Unloaded">
             <i:InvokeCommandAction Command="{Binding Path=UninitializeCommand, Mode=OneTime}" />

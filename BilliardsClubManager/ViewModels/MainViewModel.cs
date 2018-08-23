@@ -1,8 +1,10 @@
 ﻿using BilliardsClubManager.Base;
 using NullVoidCreations.Licensing;
+using NullVoidCreations.WpfHelpers;
 using NullVoidCreations.WpfHelpers.Base;
 using NullVoidCreations.WpfHelpers.Commands;
 using System.ComponentModel;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -74,7 +76,7 @@ namespace BilliardsClubManager.ViewModels
             get
             {
                 if (_initialize == null)
-                    _initialize = new RelayCommand<object, bool>(Initialize, InitializeCallback) { IsCallbackSynchronous = true };
+                    _initialize = new RelayCommand<Window, Window>(Initialize, InitializeCallback) { IsCallbackSynchronous = true };
 
                 return _initialize;
             }
@@ -98,7 +100,7 @@ namespace BilliardsClubManager.ViewModels
             RaisePropertyChanged(e.PropertyName);
         }
 
-        bool Initialize(object argument)
+        Window Initialize(Window window)
         {
             Shared.Instance.PropertyChanged += OnSharedPropertyChanged;
 
@@ -109,15 +111,17 @@ namespace BilliardsClubManager.ViewModels
                 Shared.Instance.Switch.Open();
             }
 
-            return IsLicensed;
+            return window;
         }
 
-        void InitializeCallback(bool isLicensed)
+        void InitializeCallback(Window window)
         {
-            if (isLicensed)
+            if (IsLicensed)
                 CreateChildViewCommand.Execute(new DashboardViewModel());
             else
                 CreateChildViewCommand.Execute(new SettingViewModel());
+
+            window.Maximize();
         }
 
         void Uninitialize()
