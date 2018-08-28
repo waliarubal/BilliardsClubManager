@@ -121,7 +121,8 @@ namespace BilliardsClubManager.ViewModels
             else
                 CreateChildViewCommand.Execute(new SettingViewModel());
 
-            window.Maximize();
+            if (Shared.Instance.IsMaximizedOnStart)
+                window.Maximize();
         }
 
         void Uninitialize()

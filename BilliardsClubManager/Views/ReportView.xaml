@@ -54,7 +54,10 @@
                 <DataGridTemplateColumn Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBox Text="{Binding Path=Second, Mode=TwoWay}" />
+                            <StackPanel>
+                                <TextBox Text="{Binding Path=Second, Mode=TwoWay}" Visibility="{Binding Path=Third, Mode=OneWay, Converter={StaticResource ResourceKey=InverseBooleanToVisibilityConverter}}" />
+                                <DatePicker SelectedDate="{Binding Path=Second, Mode=TwoWay}" Visibility="{Binding Path=Third, Mode=OneWay, Converter={StaticResource ResourceKey=BooleanToVisibilityConverter}}" />
+                            </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

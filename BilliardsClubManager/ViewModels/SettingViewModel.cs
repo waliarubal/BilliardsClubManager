@@ -54,6 +54,12 @@ namespace BilliardsClubManager.ViewModels
             set => Shared.Instance.DefaultGameStyle = value;
         }
 
+        public bool IsMaximizedOnStart
+        {
+            get => Shared.Instance.IsMaximizedOnStart;
+            set => Shared.Instance.IsMaximizedOnStart = value;
+        }
+
         public StrongLicense License
         {
             get => Shared.Instance.License;

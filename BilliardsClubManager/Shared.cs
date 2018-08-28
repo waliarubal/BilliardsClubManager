@@ -15,6 +15,7 @@ namespace BilliardsClubManager
         const string PASSWORD = "!Control*88";
 
         static Shared _instance;
+        bool _isMaximizedOnStart;
         PlayerModel _defaultFirstPlayer, _defaultSecondPlayer;
         GameStyleModel _defaultGameStyle;
         StrongLicense _license;
@@ -65,6 +66,12 @@ namespace BilliardsClubManager
         {
             get => _defaultGameStyle;
             set => Set(nameof(DefaultGameStyle), ref _defaultGameStyle, value);
+        }
+
+        public bool IsMaximizedOnStart
+        {
+            get => _isMaximizedOnStart;
+            set => Set(nameof(IsMaximizedOnStart), ref _isMaximizedOnStart, value);
         }
 
         public StrongLicense License
@@ -139,6 +146,7 @@ namespace BilliardsClubManager
             DefaultFirstPlayer = new PlayerModel().Get(settings.GetValue<long>(nameof(DefaultFirstPlayer), 1)) as PlayerModel;
             DefaultSecondPlayer = new PlayerModel().Get(settings.GetValue<long>(nameof(DefaultSecondPlayer), 2)) as PlayerModel;
             DefaultGameStyle = new GameStyleModel().Get(settings.GetValue<long>(nameof(DefaultGameStyle), 1)) as GameStyleModel;
+            IsMaximizedOnStart = settings.GetValue<bool>(nameof(IsMaximizedOnStart), true);
         }
 
         public void SaveSettings()
@@ -147,6 +155,7 @@ namespace BilliardsClubManager
             settings.SetValue(nameof(DefaultFirstPlayer), DefaultFirstPlayer.Id);
             settings.SetValue(nameof(DefaultSecondPlayer), DefaultSecondPlayer.Id);
             settings.SetValue(nameof(DefaultGameStyle), DefaultGameStyle.Id);
+            settings.SetValue(nameof(IsMaximizedOnStart), IsMaximizedOnStart);
             settings.Save(SettingsFile, PASSWORD);
         }
     }

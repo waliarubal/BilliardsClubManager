@@ -38,6 +38,7 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
             <Label Grid.Row="0" Content="Settings File:" />
@@ -75,8 +76,14 @@
                 ItemsSource="{Binding Path=GameStyles, Mode=OneWay}"
                 SelectedValue="{Binding Path=DefaultGameStyle, Mode=TwoWay}" />
 
-            <Button
+            <CheckBox
                 Grid.Row="5"
+                Grid.Column="1"
+                Content="Maximize on Start"
+                IsChecked="{Binding Path=IsMaximizedOnStart, Mode=TwoWay}" />
+
+            <Button
+                Grid.Row="6"
                 Grid.ColumnSpan="2"
                 HorizontalAlignment="Right"
                 Command="{Binding Path=SaveCommand, Mode=OneTime}">

@@ -7,6 +7,7 @@
         <Setter Property="Margin" Value="2" />
     </Style>
     <Style BasedOn="{StaticResource ResourceKey=BaseStyle}" TargetType="Label" />
+    <Style BasedOn="{StaticResource ResourceKey=BaseStyle}" TargetType="CheckBox" />
     <Style BasedOn="{StaticResource ResourceKey=BaseStyle}" TargetType="xwtk:DateTimePicker" />
     <Style BasedOn="{StaticResource ResourceKey=BaseStyle}" TargetType="TextBlock">
         <Setter Property="VerticalAlignment" Value="Center" />

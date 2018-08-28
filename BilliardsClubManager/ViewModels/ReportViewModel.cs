@@ -36,9 +36,15 @@ namespace BilliardsClubManager.ViewModels
 
         #region properties
 
-        public IEnumerable<Doublet<string, object>> Parameters
+        public IEnumerable<Triplet<string, object, bool>> Parameters
         {
-            get { return _report.Parameters; }
+            get
+            {
+                var parameters = new List<Triplet<string, object, bool>>();
+                foreach (var param in _report.Parameters)
+                    parameters.Add(new Triplet<string, object, bool>(param.First, param.Second, param.Second is DateTime));
+                return parameters;
+            }
         }
 
         public DataTable Result
