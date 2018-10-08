@@ -26,10 +26,13 @@ namespace BilliardsClubManager
             StartupDirectory = Application.Current.GetStartupDirectory();
             SettingsFile = Path.Combine(StartupDirectory, "Assets", "Settings.aes");
             DatabaseFile = Path.Combine(StartupDirectory, "Assets", "Database.sqlite3");
-            LicenseFile = Path.Combine(StartupDirectory, "Assets", "License.aes");
         }
 
         #region properties
+
+        internal string SerialKey { get; set; }
+
+        internal string ActivationKey { get; set; }
 
         public static Shared Instance
         {
@@ -47,8 +50,6 @@ namespace BilliardsClubManager
         public string SettingsFile { get; }
 
         public string DatabaseFile { get; }
-
-        public string LicenseFile { get; }
 
         public PlayerModel DefaultFirstPlayer
         {
@@ -126,21 +127,19 @@ namespace BilliardsClubManager
             return connection;
         }
 
-        public string LoadLicense(string fileName)
+        public string LoadLicense(string serialKey, string activationKey)
         {
             string errorMessage;
             try
             {
-                License = StrongLicense.Load(fileName, out errorMessage);
+                License = StrongLicense.Load(serialKey, activationKey, out errorMessage);
+                SerialKey = serialKey;
+                ActivationKey = activationKey;
             }
             catch(Exception ex)
             {
                 errorMessage = string.Format("Failed to load license. {0}", ex.Message);
             }
-
-            // copy license
-            if (string.IsNullOrEmpty(errorMessage) && !LicenseFile.Equals(fileName))
-                File.Copy(fileName, LicenseFile, true);
 
             return errorMessage;
         }
@@ -152,7 +151,9 @@ namespace BilliardsClubManager
             DefaultFirstPlayer = new PlayerModel().Get(settings.GetValue<long>(nameof(DefaultFirstPlayer), 1)) as PlayerModel;
             DefaultSecondPlayer = new PlayerModel().Get(settings.GetValue<long>(nameof(DefaultSecondPlayer), 2)) as PlayerModel;
             DefaultGameStyle = new GameStyleModel().Get(settings.GetValue<long>(nameof(DefaultGameStyle), 1)) as GameStyleModel;
-            IsMaximizedOnStart = settings.GetValue<bool>(nameof(IsMaximizedOnStart), true);
+            IsMaximizedOnStart = settings.GetValue(nameof(IsMaximizedOnStart), true);
+            SerialKey = settings.GetValue(nameof(SerialKey), default(string));
+            ActivationKey = settings.GetValue(nameof(ActivationKey), default(string));
         }
 
         public void SaveSettings()
@@ -162,6 +163,8 @@ namespace BilliardsClubManager
             settings.SetValue(nameof(DefaultSecondPlayer), DefaultSecondPlayer.Id);
             settings.SetValue(nameof(DefaultGameStyle), DefaultGameStyle.Id);
             settings.SetValue(nameof(IsMaximizedOnStart), IsMaximizedOnStart);
+            settings.SetValue(nameof(SerialKey), SerialKey);
+            settings.SetValue(nameof(ActivationKey), ActivationKey);
             settings.Save(SettingsFile, PASSWORD);
         }
     }

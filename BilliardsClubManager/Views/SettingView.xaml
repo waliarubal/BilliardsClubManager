@@ -112,18 +112,18 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <Label Grid.Row="0" Content="License File:" />
-            <TextBlock
+            <Label Grid.Row="0" Content="Serial Key:" />
+            <TextBox
                 Grid.Row="0"
                 Grid.Column="1"
-                Text="{Binding Path=LicenseFile, Mode=OneTime}"
+                Text="{Binding Path=SerialKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                 TextWrapping="WrapWithOverflow" />
 
-            <Label Grid.Row="1" Content="Serial Key:" />
-            <TextBlock
+            <Label Grid.Row="1" Content="Activation Key:" />
+            <TextBox
                 Grid.Row="1"
                 Grid.Column="1"
-                Text="{Binding Path=License.SerialKey, Mode=OneWay}" />
+                Text="{Binding Path=ActivationKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
             <Label Grid.Row="2" Content="E-mail Address:" />
             <TextBlock
@@ -174,7 +174,7 @@
                 <Button Grid.Column="1" Command="{Binding Path=LoadLicenseCommand, Mode=OneTime}">
                     <StackPanel Orientation="Horizontal">
                         <Image Source="/Assets/Images/certificate-32.png" />
-                        <TextBlock Text="Load from File" />
+                        <TextBlock Text="Activate" />
                     </StackPanel>
                 </Button>
             </Grid>

@@ -104,7 +104,7 @@ namespace BilliardsClubManager.ViewModels
         {
             Shared.Instance.PropertyChanged += OnSharedPropertyChanged;
 
-            Shared.Instance.LoadLicense(Shared.Instance.LicenseFile);
+            Shared.Instance.LoadLicense(Shared.Instance.SerialKey, Shared.Instance.ActivationKey);
             if (IsLicensed)
             {
                 Shared.Instance.LoadSettings();

@@ -14,9 +14,21 @@ namespace BilliardsClubManager.ViewModels
         IEnumerable<PlayerModel> _players;
         IEnumerable<GameStyleModel> _styles;
         ICommand _initialize, _uninitialize, _save, _loadLicense;
-        string _errorMessage;
+        string _errorMessage, _serialKey, _activationKey;
 
         #region properties
+
+        public string SerialKey
+        {
+            get => _serialKey;
+            set => Set(nameof(SerialKey), ref _serialKey, value);
+        }
+
+        public string ActivationKey
+        {
+            get => _activationKey;
+            set => Set(nameof(ActivationKey), ref _activationKey, value);
+        }
 
         public string ErrorMessage
         {
@@ -81,11 +93,6 @@ namespace BilliardsClubManager.ViewModels
             get => Shared.Instance.DatabaseFile;
         }
 
-        public string LicenseFile
-        {
-            get => Shared.Instance.LicenseFile;
-        }
-
         public bool IsLicensed
         {
             get => Shared.Instance.IsLicensed;
@@ -143,18 +150,18 @@ namespace BilliardsClubManager.ViewModels
 
         void LoadLicense()
         {
-            var fileBrowser = new OpenFileDialog();
-            fileBrowser.CheckFileExists = true;
-            fileBrowser.Filter = "Advanced Encryption Standard Files|*.aes|All Files|*.*";
-            fileBrowser.Multiselect = false;
-            if (fileBrowser.ShowDialog() != true)
-                return;
-
-            ErrorMessage = Shared.Instance.LoadLicense(fileBrowser.FileName);
-            if (IsLicensed)
+            if (string.IsNullOrWhiteSpace(SerialKey))
+                ErrorMessage = "Serial key not specified.";
+            else if (string.IsNullOrWhiteSpace(ActivationKey))
+                ErrorMessage = "Activation key not specified.";
+            else
             {
-                Shared.Instance.LoadSettings();
-                ErrorMessage =  Shared.Instance.Switch.Open();
+                ErrorMessage = Shared.Instance.LoadLicense(SerialKey, ActivationKey);
+                if (IsLicensed)
+                {
+                    Shared.Instance.LoadSettings();
+                    ErrorMessage = Shared.Instance.Switch.Open();
+                }
             }
         }
 
