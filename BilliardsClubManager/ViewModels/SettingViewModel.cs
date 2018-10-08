@@ -60,6 +60,12 @@ namespace BilliardsClubManager.ViewModels
             set => Shared.Instance.IsMaximizedOnStart = value;
         }
 
+        public bool IsSwitchControlledAutomatically
+        {
+            get => Shared.Instance.IsSwitchControlledAutomatically;
+            set => Shared.Instance.IsSwitchControlledAutomatically = value;
+        }
+
         public StrongLicense License
         {
             get => Shared.Instance.License;

@@ -15,7 +15,7 @@ namespace BilliardsClubManager
         const string PASSWORD = "!Control*88";
 
         static Shared _instance;
-        bool _isMaximizedOnStart;
+        bool _isMaximizedOnStart, _isSwitchControlledAutomatically;
         PlayerModel _defaultFirstPlayer, _defaultSecondPlayer;
         GameStyleModel _defaultGameStyle;
         StrongLicense _license;
@@ -72,6 +72,12 @@ namespace BilliardsClubManager
         {
             get => _isMaximizedOnStart;
             set => Set(nameof(IsMaximizedOnStart), ref _isMaximizedOnStart, value);
+        }
+
+        public bool IsSwitchControlledAutomatically
+        {
+            get => _isSwitchControlledAutomatically;
+            set => Set(nameof(IsSwitchControlledAutomatically), ref _isSwitchControlledAutomatically, value);
         }
 
         public StrongLicense License

@@ -233,7 +233,8 @@ namespace BilliardsClubManager.Models
             _timer.Elapsed += (object sender, ElapsedEventArgs e) => Compute(DateTime.Now);
             _timer.Start();
 
-            Shared.Instance.Switch.Toggle(Table.Switch, true);
+            if (Shared.Instance.IsSwitchControlledAutomatically)
+                Shared.Instance.Switch.Toggle(Table.Switch, true);
         }
 
         public bool StartGame()
@@ -265,7 +266,8 @@ namespace BilliardsClubManager.Models
             End = DateTime.Now;
             State = GameState.Finished;
 
-            Shared.Instance.Switch.Toggle(Table.Switch, false);
+            if (Shared.Instance.IsSwitchControlledAutomatically)
+                Shared.Instance.Switch.Toggle(Table.Switch, false);
 
             Compute(End);
         }

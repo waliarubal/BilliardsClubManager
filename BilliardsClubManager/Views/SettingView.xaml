@@ -76,11 +76,11 @@
                 ItemsSource="{Binding Path=GameStyles, Mode=OneWay}"
                 SelectedValue="{Binding Path=DefaultGameStyle, Mode=TwoWay}" />
 
-            <CheckBox
-                Grid.Row="5"
-                Grid.Column="1"
-                Content="Maximize on Start"
-                IsChecked="{Binding Path=IsMaximizedOnStart, Mode=TwoWay}" />
+            <StackPanel Grid.Row="5" Grid.Column="1">
+                <CheckBox Content="Maximize on Start" IsChecked="{Binding Path=IsMaximizedOnStart, Mode=TwoWay}" />
+                <CheckBox Content="Automatic Overhead Table Light Control" IsChecked="{Binding Path=IsSwitchControlledAutomatically, Mode=TwoWay}" />
+            </StackPanel>
+
 
             <Button
                 Grid.Row="6"
