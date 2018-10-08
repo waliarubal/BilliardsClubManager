@@ -42,11 +42,11 @@
     <Reference Include="Dapper.Contrib, Version=1.50.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\Dapper.Contrib.1.50.0\lib\net40\Dapper.Contrib.dll</HintPath>
     </Reference>
-    <Reference Include="Devart.Data, Version=5.0.1994.0, Culture=neutral, PublicKeyToken=09af7300eec23701, processorArchitecture=MSIL">
-      <HintPath>..\packages\dotConnect.Express.for.SQLite.5.11.1202\lib\Devart.Data.dll</HintPath>
+    <Reference Include="Devart.Data, Version=5.0.2021.0, Culture=neutral, PublicKeyToken=09af7300eec23701, processorArchitecture=MSIL">
+      <HintPath>..\packages\dotConnect.Express.for.SQLite.5.11.1229\lib\Devart.Data.dll</HintPath>
     </Reference>
-    <Reference Include="Devart.Data.SQLite, Version=5.11.1202.0, Culture=neutral, PublicKeyToken=09af7300eec23701, processorArchitecture=MSIL">
-      <HintPath>..\packages\dotConnect.Express.for.SQLite.5.11.1202\lib\Devart.Data.SQLite.dll</HintPath>
+    <Reference Include="Devart.Data.SQLite, Version=5.11.1229.0, Culture=neutral, PublicKeyToken=09af7300eec23701, processorArchitecture=MSIL">
+      <HintPath>..\packages\dotConnect.Express.for.SQLite.5.11.1229\lib\Devart.Data.SQLite.dll</HintPath>
     </Reference>
     <Reference Include="EPPlus, Version=4.5.2.1, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
       <HintPath>..\packages\EPPlus.4.5.2.1\lib\net40\EPPlus.dll</HintPath>
@@ -57,11 +57,11 @@
     <Reference Include="Microsoft.Expression.Interactions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>packages\System.Windows.Interactivity.WPF.2.0.20525\lib\net40\Microsoft.Expression.Interactions.dll</HintPath>
     </Reference>
-    <Reference Include="NullVoidCreations.Licensing, Version=18.8.9.21, Culture=neutral, PublicKeyToken=8cda3fd91b68d3ab, processorArchitecture=MSIL">
-      <HintPath>..\packages\NullVoidCreations.Licensing.18.8.9.21\lib\net40\NullVoidCreations.Licensing.dll</HintPath>
+    <Reference Include="NullVoidCreations.Licensing, Version=18.10.5.602, Culture=neutral, PublicKeyToken=8cda3fd91b68d3ab, processorArchitecture=MSIL">
+      <HintPath>..\packages\NullVoidCreations.Licensing.18.10.5.602\lib\net40\NullVoidCreations.Licensing.dll</HintPath>
     </Reference>
-    <Reference Include="NullVoidCreations.WpfHelpers, Version=18.8.23.14, Culture=neutral, PublicKeyToken=203b8d613f6ac171, processorArchitecture=MSIL">
-      <HintPath>..\packages\NullVoidCreations.WpfHelpers.18.8.23.14\lib\net40\NullVoidCreations.WpfHelpers.dll</HintPath>
+    <Reference Include="NullVoidCreations.WpfHelpers, Version=18.10.5.602, Culture=neutral, PublicKeyToken=203b8d613f6ac171, processorArchitecture=MSIL">
+      <HintPath>..\packages\NullVoidCreations.WpfHelpers.18.10.5.602\lib\net40\NullVoidCreations.WpfHelpers.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
@@ -261,6 +261,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\Images\excel-32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="logo.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
