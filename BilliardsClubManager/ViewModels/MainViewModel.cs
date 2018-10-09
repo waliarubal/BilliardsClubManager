@@ -104,12 +104,10 @@ namespace BilliardsClubManager.ViewModels
         {
             Shared.Instance.PropertyChanged += OnSharedPropertyChanged;
 
+            Shared.Instance.LoadSettings();
             Shared.Instance.LoadLicense(Shared.Instance.SerialKey, Shared.Instance.ActivationKey);
             if (IsLicensed)
-            {
-                Shared.Instance.LoadSettings();
                 Shared.Instance.Switch.Open();
-            }
 
             return window;
         }

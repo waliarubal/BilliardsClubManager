@@ -139,6 +139,13 @@
                                                 <TextBlock Text="Save" />
                                             </StackPanel>
                                         </Button>
+                                        <CheckBox
+                                            VerticalAlignment="Bottom"
+                                            Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}, Mode=OneTime, Path=DataContext.ToggleLightCommand}"
+                                            CommandParameter="{Binding}"
+                                            IsChecked="{Binding IsLightOn, Mode=OneWay}">
+                                            <TextBlock Text="Overhead Light" />
+                                        </CheckBox>
                                     </StackPanel>
                                     <TextBlock
                                         Grid.Row="2"

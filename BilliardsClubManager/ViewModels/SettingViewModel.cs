@@ -159,7 +159,7 @@ namespace BilliardsClubManager.ViewModels
                 ErrorMessage = Shared.Instance.LoadLicense(SerialKey, ActivationKey);
                 if (IsLicensed)
                 {
-                    Shared.Instance.LoadSettings();
+                    Shared.Instance.SaveSettings();
                     ErrorMessage = Shared.Instance.Switch.Open();
                 }
             }

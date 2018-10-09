@@ -22,6 +22,7 @@ namespace BilliardsClubManager.Models
     class GameModel : NotificationBase, IRecord
     {
         long _id;
+        bool _isLightOn;
         TableModel _table;
         PlayerModel _player1, _player2, _paidBy;
         DateTime? _start, _end;
@@ -151,6 +152,13 @@ namespace BilliardsClubManager.Models
         }
 
         [Computed]
+        public bool IsLightOn
+        {
+            get => _isLightOn;
+            private set => Set(nameof(IsLightOn), ref _isLightOn, value);
+        }
+
+        [Computed]
         public string ErrorMessage
         {
             get => _errorMessage;
@@ -227,6 +235,12 @@ namespace BilliardsClubManager.Models
 
         #endregion
 
+        public void ToggleLight(bool isOn)
+        {
+            if (Shared.Instance.Switch.Toggle(Table.Switch, isOn))
+                IsLightOn = isOn;
+        }
+
         public void ResumeGame()
         {
             _timer = new Timer(1000);
@@ -234,7 +248,7 @@ namespace BilliardsClubManager.Models
             _timer.Start();
 
             if (Shared.Instance.IsSwitchControlledAutomatically)
-                Shared.Instance.Switch.Toggle(Table.Switch, true);
+                ToggleLight(true);
         }
 
         public bool StartGame()
@@ -267,7 +281,7 @@ namespace BilliardsClubManager.Models
             State = GameState.Finished;
 
             if (Shared.Instance.IsSwitchControlledAutomatically)
-                Shared.Instance.Switch.Toggle(Table.Switch, false);
+                ToggleLight(false);
 
             Compute(End);
         }

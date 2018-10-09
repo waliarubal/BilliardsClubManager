@@ -9,7 +9,7 @@ namespace BilliardsClubManager.ViewModels
 {
     class DashboardViewModel : ViewModelBase
     {
-        ICommand _refresh, _startGame, _endGame, _saveGame;
+        ICommand _refresh, _startGame, _endGame, _saveGame, _toggleLight;
 
         ObservableCollection<GameModel> _games;
         IEnumerable<PlayerModel> _players;
@@ -103,7 +103,23 @@ namespace BilliardsClubManager.ViewModels
             }
         }
 
+        public ICommand ToggleLightCommand
+        {
+            get
+            {
+                if (_toggleLight == null)
+                    _toggleLight = new RelayCommand<GameModel>(ToggleLight) { IsSynchronous = true };
+
+                return _toggleLight;
+            }
+        }
+
         #endregion
+
+        void ToggleLight(GameModel game)
+        {
+            game.ToggleLight(!game.IsLightOn);
+        }
 
         void StartGame(GameModel game)
         {

@@ -112,18 +112,26 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <Label Grid.Row="0" Content="Serial Key:" />
+            <Label
+                Grid.Row="0"
+                Content="Serial Key:"
+                Visibility="{Binding Path=IsLicensed, Mode=OneWay, Converter={StaticResource ResourceKey=InverseBooleanToVisibilityConverter}}" />
             <TextBox
                 Grid.Row="0"
                 Grid.Column="1"
                 Text="{Binding Path=SerialKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                TextWrapping="WrapWithOverflow" />
+                TextWrapping="WrapWithOverflow"
+                Visibility="{Binding Path=IsLicensed, Mode=OneWay, Converter={StaticResource ResourceKey=InverseBooleanToVisibilityConverter}}" />
 
-            <Label Grid.Row="1" Content="Activation Key:" />
+            <Label
+                Grid.Row="1"
+                Content="Activation Key:"
+                Visibility="{Binding Path=IsLicensed, Mode=OneWay, Converter={StaticResource ResourceKey=InverseBooleanToVisibilityConverter}}" />
             <TextBox
                 Grid.Row="1"
                 Grid.Column="1"
-                Text="{Binding Path=ActivationKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                Text="{Binding Path=ActivationKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                Visibility="{Binding Path=IsLicensed, Mode=OneWay, Converter={StaticResource ResourceKey=InverseBooleanToVisibilityConverter}}" />
 
             <Label Grid.Row="2" Content="E-mail Address:" />
             <TextBlock
@@ -171,7 +179,10 @@
                     Foreground="Red"
                     Text="{Binding Path=ErrorMessage, Mode=OneWay}"
                     TextWrapping="WrapWithOverflow" />
-                <Button Grid.Column="1" Command="{Binding Path=LoadLicenseCommand, Mode=OneTime}">
+                <Button
+                    Grid.Column="1"
+                    Command="{Binding Path=LoadLicenseCommand, Mode=OneTime}"
+                    Visibility="{Binding Path=IsLicensed, Mode=OneWay, Converter={StaticResource ResourceKey=InverseBooleanToVisibilityConverter}}">
                     <StackPanel Orientation="Horizontal">
                         <Image Source="/Assets/Images/certificate-32.png" />
                         <TextBlock Text="Activate" />
